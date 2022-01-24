@@ -128,7 +128,7 @@ public class RealNameUnActivity extends BaseActivity implements View.OnClickList
     private Button merchant_detail_submit;     // 开户城市
     private EditText merchant_detail2_et_bg;     // 验证码
     private TextView merchant_detail2_verification_code; // 获取验证码
-    private String region = "ap-beijing"; // 存储桶地区
+    private String region = ""; // 存储桶地区
     private String folderName = "";
     private CosXmlService cosXmlService;
     private TransferManager transferManager;

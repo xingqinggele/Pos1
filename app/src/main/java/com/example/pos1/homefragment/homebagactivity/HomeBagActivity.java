@@ -35,7 +35,7 @@ public class HomeBagActivity extends BaseActivity implements View.OnClickListene
         simple = findViewById(R.id.simple);
         btn = findViewById(R.id.btn);
         iv_back = findViewById(R.id.iv_back);
-        Uri imgurl=Uri.parse("https://cykj-1303987307.cos.ap-beijing.myqcloud.com/advertising/HomeAdvP.png");
+        Uri imgurl=Uri.parse("");
         // 清除Fresco对这条验证码的缓存
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         imagePipeline.evictFromMemoryCache(imgurl);
@@ -69,7 +69,7 @@ public class HomeBagActivity extends BaseActivity implements View.OnClickListene
             case R.id.simple:
                 Intent intent = new Intent(this, HomeAdvPictureActivity.class);
                 intent.putExtra("title", "信用卡申请");
-                intent.putExtra("iv", "https://cykj-1303987307.cos.ap-beijing.myqcloud.com/advertising/bankadetail2.png");
+                intent.putExtra("iv", "");
                 startActivity(intent);
                 break;
         }

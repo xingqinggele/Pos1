@@ -17,7 +17,7 @@ import com.example.pos1.base.BaseActivity;
 public class HomeAdvPictureActivity1 extends BaseActivity implements View.OnClickListener {
     private LinearLayout iv_back;
     private WebView webview;
-    private String url = "https://gocard.lakala.com/api/channel?c=CCZS&u=";
+    private String url = "";
 
     @Override
     protected int getLayoutId() {

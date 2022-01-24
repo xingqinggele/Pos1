@@ -31,7 +31,7 @@ public class HomeAdvPictureDeleteActivity extends BaseActivity implements View.O
         simple = findViewById(R.id.simple);
         btn = findViewById(R.id.btn);
         iv_back = findViewById(R.id.iv_back);
-        Glide.with(HomeAdvPictureDeleteActivity.this).load("https://cykj-1303987307.cos.ap-beijing.myqcloud.com/advertising/HomeAdvP.png").into(simple);
+        Glide.with(HomeAdvPictureDeleteActivity.this).load("").into(simple);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class HomeAdvPictureDeleteActivity extends BaseActivity implements View.O
             case R.id.simple:
                 Intent intent = new Intent(this, HomeAdvPictureActivity.class);
                 intent.putExtra("title", "政策");
-                intent.putExtra("iv", "https://cykj-1303987307.cos.ap-beijing.myqcloud.com/advertising/bankadetail.png");
+                intent.putExtra("iv", "");
                 startActivity(intent);
                 break;
         }
