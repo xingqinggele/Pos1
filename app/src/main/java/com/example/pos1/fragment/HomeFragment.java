@@ -109,7 +109,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     //底部轮播图片容器
     private List<HomeBean> list3 = new ArrayList<>();
 
-
     /**
      * 接受activity数据
      *
@@ -324,6 +323,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     JSONObject result = new JSONObject(responseObj.toString());
                     //月交易总额
                     monthlyTransAmount = new BigDecimal(result.getJSONObject("data").getString("monthlyTransAmount")).toString();
+//                    monthlyTransAmount = new BigDecimal("170548832.01").toString();
                     //月新增伙伴
                     monthlyNewPartnerCounts = result.getJSONObject("data").getString("monthlyNewPartnerCounts");
                     //月新增商户数

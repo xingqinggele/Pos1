@@ -5,6 +5,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,7 +32,11 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.pos1.R;
+import com.example.pos1.adapter.HomeQuoteGridViewAdapter;
 import com.example.pos1.base.BaseActivity;
+import com.example.pos1.datafragment.databill.DataBillActivity;
+import com.example.pos1.datafragment.databill.adapter.DataBillDialogGridViewAdapter;
+import com.example.pos1.datafragment.databillbean.BillTypeBean;
 import com.example.pos1.homefragment.homemerchants.homenewmerchants.adapter.AreaAdapter;
 import com.example.pos1.homefragment.homemerchants.homenewmerchants.adapter.CityAdapter;
 import com.example.pos1.homefragment.homemerchants.homenewmerchants.adapter.ProvinceAdapter;
@@ -48,6 +53,8 @@ import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
 import com.example.pos1.net.ResponseCallback;
 import com.example.pos1.utils.Utils;
+import com.example.pos1.views.MyDialog;
+import com.example.pos1.views.MyGridView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -136,6 +143,10 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
     private String BankNum;
     private String merchantNo;
     /*******************************接口获取到的总数居************************/
+
+    //类型适配器Adapter
+    private HomeQuoteGridViewAdapter madapter;
+    private List<MerchTypeBean3>flList = new ArrayList<>();
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -199,7 +210,8 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                     list3 = gson.fromJson(data.getJSONArray("posErminalRatelist").toString(),
                             new TypeToken<List<MerchTypeBean3>>() {
                             }.getType());
-                    initReason3(list3);
+//                    initReason3(list3);
+                    flList.addAll(list3);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -220,7 +232,8 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.terminal_rate:
-                reasonPicker3.show();
+//                reasonPicker3.show();
+                showDialog(flList);
                 break;
             case R.id.province_relative:
                 showCityPicker();
@@ -679,5 +692,38 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
         });
     }
     /***************************************** 获取省市区功能结束 --（代码太繁琐后期要优化）***************************************************************/
+
+
+
+
+    /***
+     * 选择类型
+     */
+    public void showDialog(List<MerchTypeBean3> mList) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.home_quote_type_dialog, null);
+        Button data_bill_dialog_btn = view.findViewById(R.id.data_bill_dialog_btn);
+        MyGridView data_bill_dialog_grid = view.findViewById(R.id.data_bill_dialog_grid);
+        madapter = new HomeQuoteGridViewAdapter(HomeQuoteActivity1.this, mList);
+        data_bill_dialog_grid.setAdapter(madapter);
+        data_bill_dialog_grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //把点击的position传递到adapter里面去
+                madapter.changeState(i);
+                terminal_rate_tv.setText(mList.get(i).getFeeChlName());
+                mctType3 = mList.get(i).getFeeChlId();
+//                data_bill_type_tv.setText(list.get(i).getDictLabel());
+//                BillTypeValue = list.get(i).getDictValue();
+            }
+        });
+        Dialog dialog = new MyDialog(HomeQuoteActivity1.this, true, true, (float) 1).setNewView(view);
+        dialog.show();
+        data_bill_dialog_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
 
 }

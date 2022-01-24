@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.pos1.base.BaseActivity;
 import com.example.pos1.cos.CosServiceFactory;
@@ -30,6 +32,7 @@ import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
 import java.io.File;
+import java.math.BigDecimal;
 
 /**
  * 作者: qgl
@@ -44,6 +47,7 @@ public class DemoActivity extends BaseActivity implements View.OnClickListener {
     private String folderName = "ceshi";
     private CosXmlService cosXmlService;
     private TransferManager transferManager;
+    private Button edbtn;
     @Override
     protected int getLayoutId() {
         return R.layout.demo_activity;
@@ -57,7 +61,16 @@ public class DemoActivity extends BaseActivity implements View.OnClickListener {
         transferManager = new TransferManager(cosXmlService, transferConfig);
         img_btn = findViewById(R.id.img_btn);
         img = findViewById(R.id.img);
-
+        EditText edit1 = findViewById(R.id.edit1);
+        TextView etxtd = findViewById(R.id.etxtd);
+         edbtn = findViewById(R.id.edbtn);
+        edbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shouLog("--------------->===",new BigDecimal(edit1.getText().toString().trim()).toString());
+                etxtd.setText(new BigDecimal(edit1.getText().toString().trim()).toString());
+            }
+        });
 
     }
 

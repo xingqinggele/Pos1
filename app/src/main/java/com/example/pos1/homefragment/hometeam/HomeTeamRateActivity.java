@@ -1,8 +1,12 @@
 package com.example.pos1.homefragment.hometeam;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,13 +15,19 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.pos1.R;
+import com.example.pos1.adapter.HomeQuoteGridViewAdapter;
 import com.example.pos1.base.BaseActivity;
 import com.example.pos1.fragment.MeFragment;
 import com.example.pos1.homefragment.homeInvitepartners.FillBean;
+import com.example.pos1.homefragment.homequoteactivity.HomeQuoteActivity1;
+import com.example.pos1.homefragment.homequoteactivity.bean.MerchTypeBean3;
+import com.example.pos1.homefragment.hometeam.adapter.HomeTeamFillGridViewAdapter;
 import com.example.pos1.net.HttpRequest;
 import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
 import com.example.pos1.net.ResponseCallback;
+import com.example.pos1.views.MyDialog;
+import com.example.pos1.views.MyGridView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -25,6 +35,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -45,17 +56,12 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
     private String type2 = "";
     //提交按钮
     private TextView submit_btn;
-    //套餐ID
-    private String accountId = "";
-    //选择商户类型弹出控件
-    private OptionsPickerView reasonPicker1;
-    private OptionsPickerView reasonPicker2;
     //返回键
     private LinearLayout iv_back;
-
     private String parnterId;
-
-
+    private List<FillBean>fillBeanList1 = new ArrayList<>();
+    private List<FillBean>fillBeanList2 = new ArrayList<>();
+    private HomeTeamFillGridViewAdapter madapter;
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -89,7 +95,6 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
         js_flt0_tv.setText(getIntent().getStringExtra("sm"));
     }
 
-
     //获取后台类别数据
     private void posData() {
         RequestParams params = new RequestParams();
@@ -101,16 +106,12 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
                 try {
                     JSONObject result = new JSONObject(responseObj.toString());
                     JSONObject data = new JSONObject(result.getJSONObject("data").toString());
-                    List<FillBean> rateT1list = gson.fromJson(data.getJSONArray("rateT0list").toString(),
+                    fillBeanList1 = gson.fromJson(data.getJSONArray("rateT0list").toString(),
                             new TypeToken<List<FillBean>>() {
                             }.getType());
-                    List<FillBean> rateT0list = gson.fromJson(data.getJSONArray("settlementQrT0list").toString(),
+                    fillBeanList2 = gson.fromJson(data.getJSONArray("settlementQrT0list").toString(),
                             new TypeToken<List<FillBean>>() {
                             }.getType());
-                    //结算费率T1
-                    initReason1(rateT1list, js_flt1_tv);
-                    //结算费率T0
-                    initReason2(rateT0list, js_flt0_tv);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -123,41 +124,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-
-    //结算费率T1
-    private void initReason1(List<FillBean> mList, TextView tv) {
-        reasonPicker1 = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //兑换对象赋值
-                tv.setText(mList.get(options1).getName());
-                type1 = mList.get(options1).getId();
-            }
-        }).setTitleText("请选择商户类型").setContentTextSize(17).setTitleSize(17).setSubCalSize(16).build();
-        reasonPicker1.setPicker(mList);
-    }
-
-    //结算费率T0
-    private void initReason2(List<FillBean> mList, TextView tv) {
-        reasonPicker2 = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //兑换对象赋值
-                tv.setText(mList.get(options1).getName());
-                type2 = mList.get(options1).getId();
-            }
-        }).setTitleText("请选择商户类型").setContentTextSize(17).setTitleSize(17).setSubCalSize(16).build();
-        reasonPicker2.setPicker(mList);
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.js_flt1_relative:
-                reasonPicker1.show();
+                showDialog(fillBeanList1,"请选择信用卡结算",js_flt1_tv,0);
                 break;
             case R.id.js_flt0_relative:
-                reasonPicker2.show();
+                showDialog(fillBeanList2,"请选择扫码结算",js_flt0_tv,1);
                 break;
             case R.id.submit_btn:
                 if (TextUtils.isEmpty(type1)) {
@@ -203,6 +177,41 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onFailure(OkHttpException failuer) {
                 Failuer(failuer.getEcode(), failuer.getEmsg());
+            }
+        });
+    }
+
+
+    /***
+     * 选择类型
+     */
+    public void showDialog(List<FillBean> mList,String title,TextView tv,int value) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.home_quote_type_dialog, null);
+        TextView title_tv = view.findViewById(R.id.title_tv);
+        Button data_bill_dialog_btn = view.findViewById(R.id.data_bill_dialog_btn);
+        MyGridView data_bill_dialog_grid = view.findViewById(R.id.data_bill_dialog_grid);
+        title_tv.setText(title);
+        madapter = new HomeTeamFillGridViewAdapter(HomeTeamRateActivity.this, mList);
+        data_bill_dialog_grid.setAdapter(madapter);
+        data_bill_dialog_grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //把点击的position传递到adapter里面去
+                madapter.changeState(i);
+                tv.setText(mList.get(i).getName());
+                if (value == 0){
+                    type1 = mList.get(i).getId();
+                }else {
+                    type2 = mList.get(i).getId();
+                }
+            }
+        });
+        Dialog dialog = new MyDialog(HomeTeamRateActivity.this, true, true, (float) 1).setNewView(view);
+        dialog.show();
+        data_bill_dialog_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
     }
