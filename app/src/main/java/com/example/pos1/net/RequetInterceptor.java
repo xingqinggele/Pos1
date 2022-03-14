@@ -34,8 +34,6 @@ public class RequetInterceptor implements Interceptor {
        */
     Request request = chain.request()
         .newBuilder()
-//        .header("TOKEN", "eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImI1MmExYzg4LTc1YmMtNDE1Mi04ZDU5LTAwNjc2OTE4N2ZjZSJ9.xO32TWvz6rwJPMcFrSA7wHN2BOg1C493kwUqmQHK0pCvnTce1fIIXqfXMGifuQmdL8xC_y4Uh9TlcpjDXSxGQQ")
-//        .header("ID", id)
         .build();
 
     /**

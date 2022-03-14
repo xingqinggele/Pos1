@@ -895,5 +895,16 @@ public class HttpRequest {
     }
 
 
+ /**
+     * 交易记录列表
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getEchoServer(RequestParams params, String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "noauth/echoServer", params, token, callback, null);
+    }
+
+
 
 }

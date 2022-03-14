@@ -65,7 +65,7 @@ public class PrivacyActivity extends BaseActivity implements View.OnClickListene
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-        web_view.loadUrl("http://k.poshb.cn/");
+        web_view.loadUrl("http://www.jlzskj.com/e/lzf/ys/slm.html");
         web_view.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

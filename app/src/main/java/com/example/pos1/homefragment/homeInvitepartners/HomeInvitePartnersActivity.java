@@ -101,8 +101,6 @@ public class HomeInvitePartnersActivity extends BaseActivity implements View.OnC
     protected void initData() {
         user_name_tv.setText(SPUtils.get(this, "nickName", "").toString());
         user_phone_tv.setText(getUserName());
-
-
     }
 
     @Override

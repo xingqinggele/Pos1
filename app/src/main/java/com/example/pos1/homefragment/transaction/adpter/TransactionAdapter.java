@@ -27,7 +27,7 @@ public class TransactionAdapter extends BaseQuickAdapter<TransactionBean, BaseVi
     protected void convert(BaseViewHolder helper, TransactionBean item) {
         helper.setText(R.id.trans_name, "姓名：" + item.getAcqName());
         helper.setText(R.id.trans_time, item.getHostDate());
-        helper.setText(R.id.trans_price, item.getAmnount());
+        helper.setText(R.id.trans_price, "+" + item.getAmnount());
     }
 
 }

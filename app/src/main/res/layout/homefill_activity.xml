@@ -173,6 +173,382 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/serverThreeSixRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/serverThreeSix_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/serverThreeSixTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverThreeSix_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                    <EditText
+                        android:singleLine="true"
+                        android:numeric="integer"
+                        android:paddingRight="11dp"
+                        android:layout_marginRight="12dp"
+                        android:gravity="right|center"
+                        android:text="0"
+                        android:id="@+id/serverThreeSixEdit"
+                        android:background="@null"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/serverThreeSixTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/serverFourEightRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/serverFourEight_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/serverFourEightTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverFourEight_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+
+                    android:id="@+id/serverFourEightEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/serverFourEightTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/serverNineNineRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/serverNineNine_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/serverNineNineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverNineNine_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+
+                    android:id="@+id/serverNineNineEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/serverNineNineTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/serverTwoNineNineRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/serverTwoNineNine_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/serverTwoNineNineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverTwoNineNine_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+
+                    android:id="@+id/serverTwoNineNineEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/serverTwoNineNineTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/flowThreeSixRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/flowThreeSix_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/flowThreeSixTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/flowThreeSix_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+                    android:id="@+id/flowThreeSixEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/flowThreeSixTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/flowNineNineRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/flowNineNine_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/flowNineNineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/flowNineNine_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+
+                    android:id="@+id/flowNineNineEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/flowNineNineTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/flowFourEightRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/flowFourEight_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/flowFourEightTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/flowFourEight_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+
+                    android:id="@+id/flowFourEightEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/flowFourEightTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+
+<!--            <RelativeLayout-->
+
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="57dp"-->
+<!--                android:layout_marginLeft="12dp"-->
+<!--                android:layout_marginRight="15dp">-->
+
+<!--                <TextView-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:text="开关"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+<!--                <com.example.pos1.views.SwitchButtonView-->
+<!--                    android:layout_marginRight="12dp"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_centerVertical="true"-->
+
+<!--                    android:id="@+id/swith_btn"-->
+<!--                    android:layout_width="50dp"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+
+<!--            </RelativeLayout>-->
+<!--            <View-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginLeft="12dp"-->
+<!--                android:layout_marginRight="12dp"-->
+<!--                android:background="#F3F3F3" />-->
+
+
 
         </LinearLayout>
 

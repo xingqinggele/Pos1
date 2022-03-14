@@ -88,12 +88,12 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/transaction_item_num_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="24dp"
-                android:text="10条"
                 android:textColor="#ffffffff"
                 android:textSize="12sp" />
 

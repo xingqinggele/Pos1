@@ -141,4 +141,9 @@
 
     </style>
 
+    <!--高仿IOS7开关 - 样式-->
+    <declare-styleable name="SwitchButton">
+        <attr name="buttonColor" format="color" />
+    </declare-styleable>
+
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -20,6 +21,7 @@ import com.example.pos1.net.HttpRequest;
 import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
 import com.example.pos1.net.ResponseCallback;
+import com.example.pos1.views.SwitchButtonView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -56,6 +58,30 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
     //返回键
     private LinearLayout iv_back;
 
+    private TextView serverThreeSixTv;
+    private TextView serverFourEightTv;
+    private TextView serverNineNineTv;
+    private TextView serverTwoNineNineTv;
+    private TextView flowThreeSixTv;
+    private TextView flowNineNineTv;
+    private TextView flowFourEightTv;
+
+    private EditText serverThreeSixEdit;
+    private EditText serverFourEightEdit;
+    private EditText serverNineNineEdit;
+    private EditText serverTwoNineNineEdit;
+    private EditText flowThreeSixEdit;
+    private EditText flowNineNineEdit;
+    private EditText flowFourEightEdit;
+//    private SwitchButtonView mBtnSwitch;
+
+    private int num0 = 0;
+    private int num1 = 0;
+    private int num2 = 0;
+    private int num3 = 0;
+    private int num4 = 0;
+    private int num5 = 0;
+    private int num6 = 0;
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -71,7 +97,26 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         js_flt0_relative = findViewById(R.id.js_flt0_relative);
         js_flt0_tv = findViewById(R.id.js_flt0_tv);
         submit_btn = findViewById(R.id.submit_btn);
+        serverThreeSixTv = findViewById(R.id.serverThreeSixTv);
+        serverFourEightTv = findViewById(R.id.serverFourEightTv);
+        serverNineNineTv = findViewById(R.id.serverNineNineTv);
+        serverTwoNineNineTv = findViewById(R.id.serverTwoNineNineTv);
+        flowThreeSixTv = findViewById(R.id.flowThreeSixTv);
+        flowNineNineTv = findViewById(R.id.flowNineNineTv);
+        flowFourEightTv = findViewById(R.id.flowFourEightTv);
+
+        serverThreeSixEdit = findViewById(R.id.serverThreeSixEdit);
+        serverFourEightEdit = findViewById(R.id.serverFourEightEdit);
+        serverNineNineEdit = findViewById(R.id.serverNineNineEdit);
+        serverTwoNineNineEdit = findViewById(R.id.serverTwoNineNineEdit);
+        flowThreeSixEdit = findViewById(R.id.flowThreeSixEdit);
+        flowNineNineEdit = findViewById(R.id.flowNineNineEdit);
+        flowFourEightEdit = findViewById(R.id.flowFourEightEdit);
+//        mBtnSwitch = findViewById(R.id.swith_btn);
+
+
         posData();
+        newPosData();
     }
 
     @Override
@@ -80,6 +125,7 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         js_flt1_relative.setOnClickListener(this);
         js_flt0_relative.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
+
     }
 
     @Override
@@ -124,6 +170,52 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
+    private void newPosData(){
+        RequestParams params = new RequestParams();
+        HttpRequest.getEchoServer(params, "", new ResponseCallback() {
+            @Override
+            public void onSuccess(Object responseObj) {
+                Gson gson = new GsonBuilder().serializeNulls().create();
+                try {
+                    JSONObject result = new JSONObject(responseObj.toString());
+                    List<HomeNewFilBean> homeNewFilBeans = gson.fromJson(result.getJSONArray("data").toString(),
+                            new TypeToken<List<HomeNewFilBean>>() {
+                            }.getType());
+                    serverThreeSixTv.setText(homeNewFilBeans.get(0).getServerName());
+                    num0 = Integer.parseInt(homeNewFilBeans.get(0).getServerMoney());
+
+                    serverFourEightTv.setText(homeNewFilBeans.get(1).getServerName());
+                    num1 = Integer.parseInt(homeNewFilBeans.get(1).getServerMoney());
+
+                    serverNineNineTv.setText(homeNewFilBeans.get(2).getServerName());
+                    num2 = Integer.parseInt(homeNewFilBeans.get(2).getServerMoney());
+
+                    serverTwoNineNineTv.setText(homeNewFilBeans.get(3).getServerName());
+                    num3 = Integer.parseInt(homeNewFilBeans.get(3).getServerMoney());
+
+                    flowThreeSixTv.setText(homeNewFilBeans.get(4).getServerName());
+                    num4 = Integer.parseInt(homeNewFilBeans.get(4).getServerMoney());
+
+                    flowFourEightTv.setText(homeNewFilBeans.get(5).getServerName());
+                    num5 = Integer.parseInt(homeNewFilBeans.get(5).getServerMoney());
+
+                    flowNineNineTv.setText(homeNewFilBeans.get(6).getServerName());
+                    num6 = Integer.parseInt(homeNewFilBeans.get(6).getServerMoney());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(OkHttpException failuer) {
+                Failuer(failuer.getEcode(), failuer.getEmsg());
+            }
+        });
+    }
+
+
+
     //获取已填写的类别数据
     private void posDept() {
         RequestParams params = new RequestParams();
@@ -155,6 +247,13 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         RequestParams params = new RequestParams();
         params.put("rateT0", type1);
         params.put("qrsettleRate", type2);
+        params.put("serverThirtySix", serverThreeSixEdit.getText().toString().trim());
+        params.put("serverFortyEight", serverFourEightEdit.getText().toString().trim());
+        params.put("serverNineNineEdit", serverThreeSixEdit.getText().toString().trim());
+        params.put("serverTwoNineNineEdit", serverThreeSixEdit.getText().toString().trim());
+        params.put("flowThreeSixEdit", serverThreeSixEdit.getText().toString().trim());
+        params.put("flowNineNineEdit", serverThreeSixEdit.getText().toString().trim());
+        params.put("flowFourEightEdit", serverThreeSixEdit.getText().toString().trim());
         HttpRequest.postOpenAccount(params, "", new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
@@ -255,6 +354,34 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
                 }
                 if (TextUtils.isEmpty(type2)) {
                     showToast(3, "选择扫码结算");
+                    return;
+                }
+                if (num0 < Integer.parseInt(serverThreeSixEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
+                    return;
+                }
+                if (num1 < Integer.parseInt(serverFourEightEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
+                    return;
+                }
+                if (num2 < Integer.parseInt(serverNineNineEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
+                    return;
+                }
+                if (num3 < Integer.parseInt(serverTwoNineNineEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
+                    return;
+                }
+                if (num4 < Integer.parseInt(flowThreeSixEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
+                    return;
+                }
+                if (num5 < Integer.parseInt(flowNineNineEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
+                    return;
+                }
+                if (num6 < Integer.parseInt(flowFourEightEdit.getText().toString().trim())){
+                    showToast(3, "不能大于基本值");
                     return;
                 }
                 if (Status.equals("1")) {

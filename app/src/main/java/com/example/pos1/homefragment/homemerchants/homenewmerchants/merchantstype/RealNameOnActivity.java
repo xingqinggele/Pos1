@@ -158,6 +158,7 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initData() {
+
     }
 
     @Override
@@ -331,7 +332,6 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
                         showToast(2, "您身份证已经存在，请更换身份证在提交");
                     } else {
                         IdNumbers = false;
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

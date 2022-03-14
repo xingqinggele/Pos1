@@ -144,6 +144,10 @@ public class RealNameUnActivity extends BaseActivity implements View.OnClickList
     private List<String> bankNameList;
     private OptionsPickerView reasonPicker;//选择银行卡弹出控件
 
+    private String imgUrl1 = "";
+    private String imgUrl2 = "";
+    private String imgUrl3 = "";
+
     //需要关闭
     public static RealNameUnActivity instance = null;
     private Handler mHandler = new Handler(new Handler.Callback() {
@@ -403,13 +407,16 @@ public class RealNameUnActivity extends BaseActivity implements View.OnClickList
                     cosxmlTask = null;
                     Log.e("1111", "成功");
                     if (list.get(i).getName().equals("1")) {
-                        IdCard1_Url = cOSXMLUploadTaskResult.accessUrl;
+                        //IdCard1_Url = cOSXMLUploadTaskResult.accessUrl;
+                        imgUrl1 = cOSXMLUploadTaskResult.accessUrl;
                         Log.e("身份证正面", cOSXMLUploadTaskResult.accessUrl);
                     } else if (list.get(i).getName().equals("2")) {
-                        IdCard2_Url = cOSXMLUploadTaskResult.accessUrl;
+                        //IdCard2_Url = cOSXMLUploadTaskResult.accessUrl;
+                        imgUrl2 = cOSXMLUploadTaskResult.accessUrl;
                         Log.e("身份证反面", cOSXMLUploadTaskResult.accessUrl);
                     } else {
-                        Bank_Url = cOSXMLUploadTaskResult.accessUrl;
+                        //Bank_Url = cOSXMLUploadTaskResult.accessUrl;
+                        imgUrl3 = cOSXMLUploadTaskResult.accessUrl;
                         Log.e("银行卡", cOSXMLUploadTaskResult.accessUrl);
                     }
                     setResult(RESULT_OK);
@@ -424,10 +431,11 @@ public class RealNameUnActivity extends BaseActivity implements View.OnClickList
 
                 @Override
                 public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
+                    loadDialog.dismiss();
+                    Log.e("1111", "上传失败");
+                    showToast(2,"图片上传失败请重新上传");
                     if (cosxmlTask.getTaskState() != TransferState.PAUSED) {
                         cosxmlTask = null;
-                        Log.e("1111", "上传失败");
-
                     }
                     exception.printStackTrace();
                     serviceException.printStackTrace();
@@ -700,8 +708,8 @@ public class RealNameUnActivity extends BaseActivity implements View.OnClickList
         params.put("merchIdcardName", Username);  // 身份证姓名
         params.put("merchName", Username);  // 身份证姓名
         params.put("merchIdcard", IDNumber); // 身份证号
-        params.put("merchIdcardPositive", IdCard1_Url); //身份证正面照片
-        params.put("merchIdcardBack", IdCard2_Url); //身份证反面照片
+        params.put("merchIdcardPositive", imgUrl1); //身份证正面照片
+        params.put("merchIdcardBack", imgUrl2); //身份证反面照片
         params.put("merchProvince", province); //商户所在省
         params.put("merchCity", city); //商户所在市
         params.put("merchCounty", area); //商户所在区
@@ -710,7 +718,7 @@ public class RealNameUnActivity extends BaseActivity implements View.OnClickList
         params.put("merchBankProvince", province2); //开户行所在省
         params.put("merchBankCity", city2); //开户行所在城市
         params.put("merchBankCardno", merchant_detail2_number.getText().toString().trim()); //结算卡银行卡号
-        params.put("merchBankCard", Bank_Url); //银行卡照片
+        params.put("merchBankCard", imgUrl3); //银行卡照片
         params.put("merchBank", mctBankType); //结算银行开户行
         params.put("merchAddr", Merchants_Details_Address); //商户详细地址
         params.put("merchType", "1"); //商户类型，1小微2企业

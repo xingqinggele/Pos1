@@ -79,7 +79,6 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
     private EditText bNumber;
     /*******第一页传递数据************/
     private String snCode = ""; //设备SN码
-    private String uName = ""; //姓名
     private String uPhone = ""; //联系电话
     private String fType = ""; //终端费率
     private String province = ""; //商户注册省份
@@ -152,12 +151,14 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
     @Override
     protected void initData() {
         snCode = getIntent().getStringExtra("snCode");
-        uName = getIntent().getStringExtra("fName");
         uPhone = getIntent().getStringExtra("uPhone");
         fType = getIntent().getStringExtra("fType");
         province = getIntent().getStringExtra("province");
         city = getIntent().getStringExtra("city");
         area = getIntent().getStringExtra("area");
+        type = getIntent().getStringExtra("type");
+        bj_type = getIntent().getStringExtra("bj_type");
+
         IdUrl1 = getIntent().getStringExtra("IdUrl1");
         IdUrl2 = getIntent().getStringExtra("IdUrl2");
         IdUrl3 = getIntent().getStringExtra("IdUrl3");
@@ -165,11 +166,31 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         fNumber = getIntent().getStringExtra("fNumber");
         startTime = getIntent().getStringExtra("startTime");
         endTime = getIntent().getStringExtra("endTime");
-        type = getIntent().getStringExtra("type");
         IdUrl1isActive = getIntent().getStringExtra("IdUrl1isActive");
         IdUrl2isActive = getIntent().getStringExtra("IdUrl2isActive");
         IdUrl3isActive = getIntent().getStringExtra("IdUrl3isActive");
-        bj_type = getIntent().getStringExtra("bj_type");
+        shouLog("商户报件3第一页数据开始--------","---------------");
+        shouLog("snCode=",snCode);
+        shouLog("uPhone=",uPhone);
+        shouLog("fType=",fType);
+        shouLog("province=",province);
+        shouLog("city=",city);
+        shouLog("area=",area);
+        shouLog("type=",type);
+        shouLog("bj_type=",bj_type);
+        shouLog("商户报件3第一页数据结束--------","---------------");
+        shouLog("商户报件3第二页数据开始--------","---------------");
+        shouLog("IdUrl1=",IdUrl1);
+        shouLog("IdUrl2=",IdUrl2);
+        shouLog("IdUrl3=",IdUrl3);
+        shouLog("fName=",fName);
+        shouLog("fNumber=",fNumber);
+        shouLog("startTime=",startTime);
+        shouLog("endTime=",endTime);
+        shouLog("IdUrl1isActive=",IdUrl1isActive);
+        shouLog("IdUrl2isActive=",IdUrl2isActive);
+        shouLog("IdUrl3isActive=",IdUrl3isActive);
+        shouLog("商户报件3第二页数据开始--------","---------------");
         if (type.equals("2")){
             Hid = getIntent().getStringExtra("Hid");
             bUrl1 = getIntent().getStringExtra("ID_url4");

@@ -103,15 +103,14 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
     private String city = ""; //商户注册城市
     private String area = ""; //商户注册区县
     /*******第一页传递数据************/
-
     // 是否修改 1 新增 2 修改
     private String type = "1";
     //已经提交的数据ID
     private String Hid = "";
     private String ID_url4;
     private String ID_url5;
-    private String Name;
-    private String IdNum;
+    //    private String Name;
+//    private String IdNum;
     private String BankNum;
     private String merchantNo;
     // 需要关闭
@@ -159,6 +158,16 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
         area = getIntent().getStringExtra("area");
         type = getIntent().getStringExtra("type");
         bj_type = getIntent().getStringExtra("bj_type");
+        shouLog("商户报件2第一页数据开始--------","---------------");
+        shouLog("snCode=",snCode);
+        shouLog("uPhone=",uPhone);
+        shouLog("fType=",fType);
+        shouLog("province=",province);
+        shouLog("city=",city);
+        shouLog("area=",area);
+        shouLog("type=",type);
+        shouLog("bj_type=",bj_type);
+        shouLog("商户报件2第一页数据结束--------","---------------");
         if (type.equals("2")) {
             Hid = getIntent().getStringExtra("Hid");
             IdCard1_Url = getIntent().getStringExtra("ID_url1");
@@ -166,17 +175,14 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
             Handheld_url = getIntent().getStringExtra("ID_url3");
             ID_url4 = getIntent().getStringExtra("ID_url4");
             ID_url5 = getIntent().getStringExtra("ID_url5");
-            Name = getIntent().getStringExtra("Name");
-            IdNum = getIntent().getStringExtra("IdNum");
+            IdName = getIntent().getStringExtra("Name");
+            IdNumber = getIntent().getStringExtra("IdNum");
             s = getIntent().getStringExtra("onYear");
             t = getIntent().getStringExtra("outYear");
             BankNum = getIntent().getStringExtra("BankNum");
             merchantNo = getIntent().getStringExtra("merchantNo");
-            id_card_is.setImageURI(IdCard1_Url);
-            id_card_the.setImageURI(IdCard2_Url);
-            id_card_pay.setImageURI(Handheld_url);
-            name_ed.setText(Name);
-            card_number_ed.setText(IdNum);
+            name_ed.setText(IdName.substring(0, 1) + "**");
+            card_number_ed.setText(IdNumber.substring(0, 3) + "**********" + IdNumber.substring(IdNumber.length() - 4));
             home_quote_start_time.setText(s);
             home_quote_un_time.setText(t);
         }
@@ -188,7 +194,6 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
             id_card_pay.setEnabled(false);
             id_card_pay.setClickable(false);
         }
-
 
     }
 
@@ -212,7 +217,7 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
                                 Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
                                 try {
                                     if (bitmap != null)
-                                    id_card_is.setImageBitmap(bitmap);
+                                        id_card_is.setImageBitmap(bitmap);
                                     IdCard1_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
                                     IdUrl1isActive = "2";
                                 } catch (IOException e) {
@@ -315,8 +320,6 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
                 intent.putExtra("IdUrl2isActive", IdUrl2isActive);
                 intent.putExtra("IdUrl3", Handheld_url);
                 intent.putExtra("IdUrl3isActive", IdUrl3isActive);
-                intent.putExtra("fName", name_ed.getText().toString().trim());
-                intent.putExtra("fNumber", card_number_ed.getText().toString().trim());
                 intent.putExtra("startTime", s);
                 intent.putExtra("endTime", t);
                 intent.putExtra("type", type);
@@ -327,6 +330,11 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
                     intent.putExtra("ID_url5", ID_url5);
                     intent.putExtra("BankNum", BankNum);
                     intent.putExtra("merchantNo", merchantNo);
+                    intent.putExtra("fName", IdName);
+                    intent.putExtra("fNumber", IdNumber);
+                } else {
+                    intent.putExtra("fName", name_ed.getText().toString().trim());
+                    intent.putExtra("fNumber", card_number_ed.getText().toString().trim());
                 }
                 startActivity(intent);
                 break;
@@ -411,7 +419,6 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
         }
 
     }
-
 
     /************************************** 选取照片结束 ***********************************************************************/
 }

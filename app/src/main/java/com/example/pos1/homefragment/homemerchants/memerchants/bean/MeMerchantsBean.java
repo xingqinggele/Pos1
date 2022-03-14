@@ -17,6 +17,7 @@ public class MeMerchantsBean implements Serializable {
     @SerializedName("transAmount")  // 根据接口自定义
     private String monthTurnover;  //本月交易额
     private String terminalNo;
+    private String merchCode;
 
     public String getTerminalNo() {
         return terminalNo;
@@ -69,6 +70,14 @@ public class MeMerchantsBean implements Serializable {
 
     public void setIsAudit(String isAudit) {
         this.isAudit = isAudit;
+    }
+
+    public String getMerchCode() {
+        return merchCode;
+    }
+
+    public void setMerchCode(String merchCode) {
+        this.merchCode = merchCode;
     }
 
     @Override

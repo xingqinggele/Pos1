@@ -99,6 +99,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_marginTop="13dp"
         android:background="@drawable/main_me_line_bg"
         android:layout_marginRight="10dp"
@@ -135,6 +136,7 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="invisible"
             android:id="@+id/privacy_btn_tv"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="12dp"

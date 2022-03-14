@@ -32,9 +32,9 @@ public class MeMerchantsAdapter extends BaseQuickAdapter<MeMerchantsBean, BaseVi
     @SuppressLint("Range")
     @Override
     protected void convert(BaseViewHolder helper, MeMerchantsBean item) {
-        helper.setText(R.id.me_merchants_name, item.getName());
+        helper.setText(R.id.me_merchants_name, "商户姓名: " + item.getName());
+        helper.setText(R.id.me_merchants_number, "商户编号: " + item.getMerchCode());
         helper.setText(R.id.me_merchants_price, new BigDecimal(item.getMonthTurnover()).toString());
-        Log.e("书和第四", item.getTerminalNo() + "");
         String title = "";
         String color = "";
         String edit_test = "";
@@ -82,7 +82,7 @@ public class MeMerchantsAdapter extends BaseQuickAdapter<MeMerchantsBean, BaseVi
             @Override
             public void onClick(View view) {
                 if (callback == null) return;
-                callback.addAction(item.getId(), item.getIsAudit());
+                callback.addAction(item.getMerchCode(), item.getIsAudit());
             }
         });
 

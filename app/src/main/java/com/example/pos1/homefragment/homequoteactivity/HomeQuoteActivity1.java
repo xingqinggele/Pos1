@@ -78,8 +78,6 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
     private TextView terminal_rate_tv;
     //终端费率容器
     private List<MerchTypeBean3> list3;
-    //选择终端费率弹出控件
-    private OptionsPickerView reasonPicker3;
     //终端费率选择值
     private String mctType3 = "";
     //选择商户注册省市区
@@ -146,7 +144,7 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
 
     //类型适配器Adapter
     private HomeQuoteGridViewAdapter madapter;
-    private List<MerchTypeBean3>flList = new ArrayList<>();
+        private List<MerchTypeBean3>flList = new ArrayList<>();
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -210,7 +208,6 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                     list3 = gson.fromJson(data.getJSONArray("posErminalRatelist").toString(),
                             new TypeToken<List<MerchTypeBean3>>() {
                             }.getType());
-//                    initReason3(list3);
                     flList.addAll(list3);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -232,7 +229,6 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.terminal_rate:
-//                reasonPicker3.show();
                 showDialog(flList);
                 break;
             case R.id.province_relative:
@@ -240,6 +236,7 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                 break;
             case R.id.submit_bt:
                 Intent intent = new Intent(HomeQuoteActivity1.this, HomeQuoteActivity2.class);
+
                 if (TextUtils.isEmpty(quote_sn_num.getText().toString().trim())) {
                     showToast(3, "SN号码");
                     return;
@@ -259,8 +256,13 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                     showToast(3, "终端费率");
                     return;
                 }
-                intent.putExtra("quote_sn_num",quote_sn_num.getText().toString().trim());
-                intent.putExtra("quote_phone",quote_phone.getText().toString().trim());
+                if (type.equals("2")){
+                    intent.putExtra("quote_sn_num",snNum);
+                    intent.putExtra("quote_phone",Phone);
+                }else {
+                    intent.putExtra("quote_sn_num",quote_sn_num.getText().toString().trim());
+                    intent.putExtra("quote_phone",quote_phone.getText().toString().trim());
+                }
                 intent.putExtra("mctType3",mctType3);
                 intent.putExtra("province",province);
                 intent.putExtra("city",city);
@@ -287,24 +289,10 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
         }
     }
 
-    //选择商户类型
-    //配置弹出控件数据
-    private void initReason3(List<MerchTypeBean3> mList) {
-        reasonPicker3 = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //兑换对象赋值
-                terminal_rate_tv.setText(mList.get(options1).getFeeChlName());
-                mctType3 = mList.get(options1).getFeeChlId();
-            }
-        }).setTitleText("请选择终端费率").setContentTextSize(17).setTitleSize(17).setSubCalSize(16).build();
-        reasonPicker3.setPicker(mList);
-    }
-
     //请求填写的数据
     private void posDetail(String id){
         RequestParams params = new RequestParams();
-        params.put("snCode",id);
+        params.put("merchantNo",id);
         HttpRequest.getEntry(params, getToken(), new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
@@ -352,8 +340,8 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
     }
 
     private void setVaule() {
-        quote_sn_num.setText(snNum);
-        quote_phone.setText(Phone);
+        quote_sn_num.setText(snNum.substring(0,1) + "********");
+        quote_phone.setText(Phone.substring(0,3) + "****" + Phone.substring(Phone.length() - 4));
         province_tv.setText(AddressU);
         terminal_rate_tv.setText(FeiLv);
     }
@@ -633,35 +621,35 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
         });
     }
 
-    // 获取地区编码市
+        // 获取地区编码市
     public void posCity1(String code) {
-        RequestParams params = new RequestParams();
-        params.put("dictType", "");
-        params.put("dictLevelCode", code);
-        HttpRequest.getCityB(params, "", new ResponseCallback() {
-            @Override
-            public void onSuccess(Object responseObj) {
-                //需要转化为实体对象
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                try {
-                    JSONObject result = new JSONObject(responseObj.toString());
-                    cityList = gson.fromJson(result.getJSONArray("data").toString(),
-                            new TypeToken<List<CityBean>>() {
-                            }.getType());
-                    mCityAdapter = new CityAdapter(context, cityList);
-                    mHandler.sendMessage(Message.obtain(mHandler, 1, cityList));
+            RequestParams params = new RequestParams();
+            params.put("dictType", "");
+            params.put("dictLevelCode", code);
+            HttpRequest.getCityB(params, "", new ResponseCallback() {
+                @Override
+                public void onSuccess(Object responseObj) {
+                    //需要转化为实体对象
+                    Gson gson = new GsonBuilder().serializeNulls().create();
+                    try {
+                        JSONObject result = new JSONObject(responseObj.toString());
+                        cityList = gson.fromJson(result.getJSONArray("data").toString(),
+                                new TypeToken<List<CityBean>>() {
+                                }.getType());
+                        mCityAdapter = new CityAdapter(context, cityList);
+                        mHandler.sendMessage(Message.obtain(mHandler, 1, cityList));
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(OkHttpException failuer) {
-                Failuer(failuer.getEcode(), failuer.getEmsg());
-            }
-        });
-    }
+                @Override
+                public void onFailure(OkHttpException failuer) {
+                    Failuer(failuer.getEcode(), failuer.getEmsg());
+                }
+            });
+        }
 
     // 获取地区编区
     public void posCity2(String code) {
@@ -693,9 +681,6 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
     }
     /***************************************** 获取省市区功能结束 --（代码太繁琐后期要优化）***************************************************************/
 
-
-
-
     /***
      * 选择类型
      */
@@ -712,8 +697,6 @@ public class HomeQuoteActivity1 extends BaseActivity implements View.OnClickList
                 madapter.changeState(i);
                 terminal_rate_tv.setText(mList.get(i).getFeeChlName());
                 mctType3 = mList.get(i).getFeeChlId();
-//                data_bill_type_tv.setText(list.get(i).getDictLabel());
-//                BillTypeValue = list.get(i).getDictValue();
             }
         });
         Dialog dialog = new MyDialog(HomeQuoteActivity1.this, true, true, (float) 1).setNewView(view);

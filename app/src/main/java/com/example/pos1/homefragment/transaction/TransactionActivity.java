@@ -101,7 +101,7 @@ public class TransactionActivity extends BaseActivity implements View.OnClickLis
     private void posData(boolean isRefresh) {
         RequestParams params = new RequestParams();
         params.put("userId", getUserId());
-        params.put("pageNo", mCount + "");
+        params.put("pageNum", mCount + "");
         params.put("pageSize", pageSize + "");
         params.put("startTime", startTime);
         params.put("endTime", endTime);
