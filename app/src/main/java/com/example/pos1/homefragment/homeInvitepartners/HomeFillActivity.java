@@ -172,6 +172,7 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
 
     private void newPosData(){
         RequestParams params = new RequestParams();
+        params.put("userId", getUserId());
         HttpRequest.getEchoServer(params, "", new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
