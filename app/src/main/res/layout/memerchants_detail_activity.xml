@@ -41,20 +41,6 @@
                 android:text="商户详情"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/merchants_transfer_tv"
-                android:layout_marginRight="12dp"
-                android:gravity="center"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="商户转移"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                />
-
         </RelativeLayout>
 
         <ImageView
@@ -66,6 +52,7 @@
             android:src="@mipmap/head" />
 
         <TextView
+            android:text="张三"
             android:id="@+id/me_merchants_detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,8 +61,8 @@
             android:textColor="#ff696969"
             android:textSize="18sp" />
 
-
         <TextView
+            android:text="2022-03-25"
             android:id="@+id/me_merchants_detail_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,62 +82,18 @@
             android:textColor="#ff808080"
             android:textSize="12sp" />
 
-        <TextView
-            android:layout_alignLeft="@+id/me_merchants_detail_time"
-            android:id="@+id/me_merchants_detail_sh_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/me_merchants_detail_number"
-            android:layout_marginTop="4dp"
-            android:textColor="#ff808080"
-            android:textSize="12sp" />
     </RelativeLayout>
 
-
-    <RadioGroup
-        android:id="@+id/merchants_detail_radio_group"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/merchants_detail_swipe"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-
-        <RadioButton
-            android:id="@+id/equipment_radio"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/merchants_detail_recycle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/me_merchants_detali_radio_btn_bg"
-            android:button="@null"
-            android:gravity="center"
-            android:text="TA的设备"
-            android:textColor="@drawable/me_merchants_detail_rbtn_txt"
-            android:textSize="16sp" />
+            android:layout_height="match_parent"/>
 
-
-        <RadioButton
-            android:id="@+id/trading_radio"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/me_merchants_detali_radio_btn_bg1"
-            android:button="@null"
-            android:gravity="center"
-            android:text="TA的交易"
-            android:textColor="@drawable/me_merchants_detail_rbtn_txt"
-            android:textSize="16sp" />
-    </RadioGroup>
-
-    <FrameLayout
-        android:id="@+id/me_merchants_detail_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp" />
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

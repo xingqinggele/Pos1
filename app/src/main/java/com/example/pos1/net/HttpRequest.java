@@ -916,6 +916,16 @@ public class HttpRequest {
         RequestMode.postRequest(Urls.commUrls + "pos/api/v2/merchant/echoRate", params, token, callback, null);
     }
 
+/**
+     *商戶详情
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getQueryMyCommercialTenant(RequestParams params, String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "/pos/api/v1/merchant/queryMyCommercialTenant", params, token, callback, null);
+    }
+
 
 
 }

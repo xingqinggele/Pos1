@@ -128,7 +128,7 @@ public class MeMerchantsActivity extends BaseActivity implements View.OnClickLis
                 if (beanList.get(position).getIsAudit().equals("3")) {
                     //点击Item事件
                     Intent intent = new Intent(MeMerchantsActivity.this, MeMerchantsDetailActivity.class);
-                    intent.putExtra("MeMerchants_id", beanList.get(position).getId());
+                    intent.putExtra("MeMerchants_id", beanList.get(position).getTerminalNo());
                     startActivity(intent);
                 }
             }
