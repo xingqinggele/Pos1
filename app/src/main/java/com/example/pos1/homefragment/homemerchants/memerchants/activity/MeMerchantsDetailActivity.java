@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.pos1.R;
 import com.example.pos1.base.BaseActivity;
+import com.example.pos1.homefragment.homemerchants.memerchants.adapter.MerchatsDetailAdapter;
+import com.example.pos1.homefragment.homemerchants.memerchants.bean.MerchantsDetailBean;
 import com.example.pos1.net.HttpRequest;
 import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
@@ -17,6 +19,9 @@ import com.example.pos1.net.ResponseCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 作者: qgl
@@ -38,11 +43,10 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
     private String merchantName = "";
     //当前界面
     public static MeMerchantsDetailActivity instance = null;
-
     private SwipeRefreshLayout merchants_detail_swipe;
     private RecyclerView merchants_detail_recycle;
-//    private MerchatsDetailAdapter merchatsDetailAdapter;
-
+    private MerchatsDetailAdapter merchatsDetailAdapter;
+    private List<MerchantsDetailBean>merchantsDetailBeans = new ArrayList<>();
 
     //xml界面
     @Override
@@ -130,19 +134,19 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
         //上拉刷新初始化
         merchants_detail_swipe.setOnRefreshListener(this);
         //adapter配置data
-        //merchatsDetailAdapter = new MerchatsDetailAdapter(R.layout.merchants_detail_list_item, beanList,this);
+        merchatsDetailAdapter = new MerchatsDetailAdapter(R.layout.merchants_detail_list_item, merchantsDetailBeans);
         //打开加载动画
-        //merchatsDetailAdapter.openLoadAnimation();
+        merchatsDetailAdapter.openLoadAnimation();
         //设置启用加载更多
-        //merchatsDetailAdapter.setEnableLoadMore(false);
+        merchatsDetailAdapter.setEnableLoadMore(false);
         //设置为加载更多监听器
         //merchatsDetailAdapter.setOnLoadMoreListener(this, merchants_detail_recycle);
         //数据为空显示xml
-        //merchatsDetailAdapter.setEmptyView(LayoutInflater.from(this).inflate(R.layout.list_empty, null));
+        merchatsDetailAdapter.setEmptyView(LayoutInflater.from(this).inflate(R.layout.list_empty, null));
         // RecyclerView设置布局管理器
         merchants_detail_recycle.setLayoutManager(new LinearLayoutManager(this));
         //RecyclerView配置adapter
-        //merchants_detail_recycle.setAdapter(merchatsDetailAdapter);
+        merchants_detail_recycle.setAdapter(merchatsDetailAdapter);
         //请求接口
         posDate();
     }
