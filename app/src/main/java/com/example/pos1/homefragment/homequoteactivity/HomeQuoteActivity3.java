@@ -3,13 +3,18 @@ package com.example.pos1.homefragment.homequoteactivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.example.pos1.R;
 import com.example.pos1.base.BaseActivity;
@@ -120,6 +125,10 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
 
     //报件 1 成功 2 失败
     private String bj_type = "";
+
+    private PopupWindow popWindow;
+    private View popView;
+    private int BankCardIn = 1006;
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -158,7 +167,6 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         area = getIntent().getStringExtra("area");
         type = getIntent().getStringExtra("type");
         bj_type = getIntent().getStringExtra("bj_type");
-
         IdUrl1 = getIntent().getStringExtra("IdUrl1");
         IdUrl2 = getIntent().getStringExtra("IdUrl2");
         IdUrl3 = getIntent().getStringExtra("IdUrl3");
@@ -207,21 +215,7 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.id_card_is:
-                initSdk(getSecretId(), getSecretKey());
-                OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity3.this, OcrType.BankCardOCR,
-                        CustomConfigUtil.getInstance().getCustomConfigUi(), new ISDKKitResultListener() {
-                            @Override
-                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
-                                //回显银行卡信息
-                                getBank_information(response, srcBase64Image);
-                            }
-
-                            @Override
-                            public void onProcessFailed(String errorCode, String message, String requestId) {
-                                popTip(errorCode, message);
-                                Log.e("requestId", requestId);
-                            }
-                        });
+                showEditPhotoWindow(BankCardIn);
                 break;
             case R.id.id_card_the:
                 com.wildma.pictureselector.PictureSelector
@@ -517,6 +511,36 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
                             }
                         }).launch();
             }
+        }else if(requestCode == BankCardIn){
+            PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+            IdUrl4isActive = "2";
+            Luban.with(this)
+                    .load(pictureBean.getPath())
+                    .ignoreBy(100)
+                    .setTargetDir(Utility.getPath())
+                    .filter(new CompressionPredicate() {
+                        @Override
+                        public boolean apply(String path) {
+                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                        }
+                    })
+                    .setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            bUrl1 = file.getPath();
+                            id_card_is.setImageBitmap(BitmapFactory.decodeFile(bUrl1));
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+                    }).launch();
         }
     }
 
@@ -564,5 +588,75 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         OcrSDKKit.getInstance().release();
+    }
+
+
+    /**
+     * 弹出框
+     *
+     * @param value
+     */
+    private void showEditPhotoWindow(int value) {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        popView = layoutInflater.inflate(R.layout.popwindow_main, (ViewGroup) null);
+        popWindow = new PopupWindow(popView, -1, -2);
+        popWindow.setAnimationStyle(R.style.AnimBottom);
+        popWindow.setBackgroundDrawable(new ColorDrawable());
+        popWindow.showAtLocation(popView, 80, 0, 0);
+        popWindow.setTouchable(true);
+        popWindow.setOutsideTouchable(false);
+        popWindow.setFocusable(true);
+        TextView tv_select_pic = popView.findViewById(R.id.tv_photo);
+        TextView tv_pai_pic = popView.findViewById(R.id.tv_photograph);
+        TextView tv_cancl = popView.findViewById(R.id.tv_cancle);
+        LinearLayout layout = popView.findViewById(R.id.dialog_ll);
+        tv_select_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initSdk(getSecretId(), getSecretKey());
+                OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity3.this, OcrType.BankCardOCR,
+                        CustomConfigUtil.getInstance().getCustomConfigUi(), new ISDKKitResultListener() {
+                            @Override
+                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
+                                //回显银行卡信息
+                                getBank_information(response, srcBase64Image);
+                            }
+
+                            @Override
+                            public void onProcessFailed(String errorCode, String message, String requestId) {
+                                popTip(errorCode, message);
+                                Log.e("requestId", requestId);
+                            }
+                        });
+            }
+        });
+        tv_pai_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
+                PictureSelector
+                        .create(HomeQuoteActivity3.this, value)
+                        .selectPicture(false);
+            }
+        });
+        tv_cancl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
+            }
+        });
+
     }
 }

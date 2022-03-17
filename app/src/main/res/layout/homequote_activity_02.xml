@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="#F3F3F3"
     android:orientation="vertical">
     <!--顶部部分-->
@@ -96,11 +96,11 @@
 
     <!--内容部分-->
     <ScrollView
-        android:layout_above="@+id/submit_bt"
-        android:layout_below="@+id/top_view"
         android:id="@+id/scro_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/submit_bt"
+        android:layout_below="@+id/top_view"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -216,8 +216,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="22dp"
-      >
+                    android:layout_marginLeft="22dp">
 
                     <TextView
                         android:id="@+id/merchants_detail_tv5"
@@ -249,10 +248,10 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
                     android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="15dp">
 
                     <TextView
@@ -283,7 +282,6 @@
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@+id/quote_tv11"
                         android:background="@null"
-                        android:enabled="false"
                         android:gravity="center_vertical|right"
                         android:hint="请输入法人姓名"
                         android:maxLines="1"
@@ -292,12 +290,14 @@
                         android:textSize="12sp" />
 
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:background="#F3F3F3" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
@@ -332,7 +332,6 @@
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@+id/quote_tv22"
                         android:background="@null"
-                        android:enabled="false"
                         android:gravity="center_vertical|right"
                         android:hint="请输入法人证件号码"
                         android:maxLines="1"
@@ -341,12 +340,14 @@
                         android:textSize="12sp" />
 
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:background="#F3F3F3" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
@@ -363,17 +364,16 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:textColor="#000000"
-                        android:text="证件有效开始日期"
                         android:id="@+id/quote_tv44"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/quote_tv4"
+                        android:text="证件有效开始日期"
+                        android:textColor="#000000"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:textColor="#000000"
                         android:id="@+id/home_quote_start_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -382,10 +382,12 @@
                         android:drawablePadding="11dp"
                         android:gravity="center"
                         android:hint="请选择开始时间"
+                        android:textColor="#000000"
                         android:textSize="12sp" />
 
 
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -419,7 +421,6 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:hint="请选择结束时间"
                         android:id="@+id/home_quote_un_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -427,6 +428,7 @@
                         android:layout_centerVertical="true"
                         android:drawablePadding="11dp"
                         android:gravity="center"
+                        android:hint="请选择结束时间"
                         android:textColor="#000000"
                         android:textSize="12sp" />
 

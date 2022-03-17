@@ -4,19 +4,28 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.pos1.R;
@@ -25,6 +34,7 @@ import com.example.pos1.bean.IdCardInfo;
 import com.example.pos1.homefragment.homemerchants.homenewmerchants.merchantstype.RealNameOnActivity;
 import com.example.pos1.mefragment.setup.PersonalActivity;
 import com.example.pos1.utils.ImageConvertUtil;
+import com.example.pos1.utils.TimeUtils;
 import com.example.pos1.utils.Utility;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
@@ -40,6 +50,7 @@ import com.wildma.pictureselector.PictureSelector;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import top.zibin.luban.CompressionPredicate;
@@ -117,6 +128,10 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
     public static HomeQuoteActivity2 instance = null;
     //报件 1 成功 2 失败
     private String bj_type = "";
+    final private int IdCardIn = 1004;
+    final private int IdCardOn = 1005;
+    private PopupWindow popWindow;
+    private View popView;
 
     @Override
     protected int getLayoutId() {
@@ -146,6 +161,8 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
         id_card_the.setOnClickListener(this);
         id_card_pay.setOnClickListener(this);
         submit_bt.setOnClickListener(this);
+        home_quote_start_time.setOnClickListener(this);
+        home_quote_un_time.setOnClickListener(this);
     }
 
     @Override
@@ -158,16 +175,16 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
         area = getIntent().getStringExtra("area");
         type = getIntent().getStringExtra("type");
         bj_type = getIntent().getStringExtra("bj_type");
-        shouLog("商户报件2第一页数据开始--------","---------------");
-        shouLog("snCode=",snCode);
-        shouLog("uPhone=",uPhone);
-        shouLog("fType=",fType);
-        shouLog("province=",province);
-        shouLog("city=",city);
-        shouLog("area=",area);
-        shouLog("type=",type);
-        shouLog("bj_type=",bj_type);
-        shouLog("商户报件2第一页数据结束--------","---------------");
+        shouLog("商户报件2第一页数据开始--------", "---------------");
+        shouLog("snCode=", snCode);
+        shouLog("uPhone=", uPhone);
+        shouLog("fType=", fType);
+        shouLog("province=", province);
+        shouLog("city=", city);
+        shouLog("area=", area);
+        shouLog("type=", type);
+        shouLog("bj_type=", bj_type);
+        shouLog("商户报件2第一页数据结束--------", "---------------");
         if (type.equals("2")) {
             Hid = getIntent().getStringExtra("Hid");
             IdCard1_Url = getIntent().getStringExtra("ID_url1");
@@ -203,72 +220,19 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.home_quote_start_time:
+                selectTime(home_quote_start_time, 1);
+                break;
+            case R.id.home_quote_un_time:
+                selectTime(home_quote_un_time, 2);
+                break;
             // 获取身份证正面
             case R.id.id_card_is:
-                initSdk(getSecretId(), getSecretKey());
-                //弹出界面
-                OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity2.this, OcrType.IDCardOCR_FRONT, null,
-                        new ISDKKitResultListener() {
-                            @Override
-                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
-                                IdCardInfo tempIdCardInfo = new Gson().fromJson(response, IdCardInfo.class);
-                                Log.e("response", tempIdCardInfo.getRequestId());
-                                Log.e("response", tempIdCardInfo.toString());
-                                Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
-                                try {
-                                    if (bitmap != null)
-                                        id_card_is.setImageBitmap(bitmap);
-                                    IdCard1_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
-                                    IdUrl1isActive = "2";
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                IdName = tempIdCardInfo.getName();
-                                IdNumber = tempIdCardInfo.getIdNum();
-                                setResultListData();
-                            }
-
-                            @Override
-                            public void onProcessFailed(String errorCode, String message, String requestId) {
-                                popTip(errorCode, message);
-                                Log.e("requestId", requestId);
-                                IdName = "";
-                                IdNumber = "";
-                            }
-                        });
-
+                showEditPhotoWindow(IdCardIn);
                 break;
             // 获取身份证反面
             case R.id.id_card_the:
-                initSdk(getSecretId(), getSecretKey());
-                //身份证反面
-                OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity2.this, OcrType.IDCardOCR_BACK, null,
-                        new ISDKKitResultListener() {
-                            @Override
-                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
-                                IdCardInfo tempIdCardInfo = new Gson().fromJson(response, IdCardInfo.class);
-                                Log.e("response", tempIdCardInfo.getRequestId());
-                                Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
-                                try {
-                                    if (bitmap != null)
-                                        id_card_the.setImageBitmap(bitmap);
-                                    IdCard2_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
-                                    IdUrl2isActive = "2";
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                IdValidDate = tempIdCardInfo.getValidDate();
-                                setResultListData();
-                            }
-
-                            @Override
-                            public void onProcessFailed(String errorCode, String message, String requestId) {
-                                popTip(errorCode, message);
-                                Log.e("11111requestId", requestId);
-                                IdValidDate = "";
-                            }
-                        });
-
+                showEditPhotoWindow(IdCardOn);
                 break;
             // 获取手持身份证照片
             case R.id.id_card_pay:
@@ -342,6 +306,65 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
     }
 
     /**
+     * 弹出框
+     *
+     * @param value
+     */
+    private void showEditPhotoWindow(int value) {
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        popView = layoutInflater.inflate(R.layout.popwindow_main, (ViewGroup) null);
+        popWindow = new PopupWindow(popView, -1, -2);
+        popWindow.setAnimationStyle(R.style.AnimBottom);
+        popWindow.setBackgroundDrawable(new ColorDrawable());
+        popWindow.showAtLocation(popView, 80, 0, 0);
+        popWindow.setTouchable(true);
+        popWindow.setOutsideTouchable(false);
+        popWindow.setFocusable(true);
+        TextView tv_select_pic = popView.findViewById(R.id.tv_photo);
+        TextView tv_pai_pic = popView.findViewById(R.id.tv_photograph);
+        TextView tv_cancl = popView.findViewById(R.id.tv_cancle);
+        LinearLayout layout = popView.findViewById(R.id.dialog_ll);
+        tv_select_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (value == IdCardIn) {
+                    getIDCardIn();
+                } else {
+                    getIDCardOn();
+                }
+            }
+        });
+        tv_pai_pic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
+                PictureSelector
+                        .create(HomeQuoteActivity2.this, value)
+                        .selectPicture(false);
+            }
+        });
+        tv_cancl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
+            }
+        });
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
+            }
+        });
+
+    }
+
+    /**
      * 腾讯卡片识别初始化
      */
     private void initSdk(String secretId, String secretKey) {
@@ -386,7 +409,7 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PictureSelector.SELECT_REQUEST_CODE) {
             if (data != null) {
-                PictureBean pictureBean = data.getParcelableExtra(com.wildma.pictureselector.PictureSelector.PICTURE_RESULT);
+                PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
                 IdUrl3isActive = "2";
                 Luban.with(this)
                         .load(pictureBean.getPath())
@@ -416,9 +439,163 @@ public class HomeQuoteActivity2 extends BaseActivity implements View.OnClickList
                             }
                         }).launch();
             }
-        }
+        } else if (requestCode == IdCardIn) {
+            if (data != null) {
+                PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+                IdUrl1isActive = "2";
+                Luban.with(this)
+                        .load(pictureBean.getPath())
+                        .ignoreBy(100)
+                        .setTargetDir(Utility.getPath())
+                        .filter(new CompressionPredicate() {
+                            @Override
+                            public boolean apply(String path) {
+                                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                            }
+                        })
+                        .setCompressListener(new OnCompressListener() {
+                            @Override
+                            public void onStart() {
 
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                IdCard1_Url = file.getPath();
+                                id_card_is.setImageBitmap(BitmapFactory.decodeFile(IdCard1_Url));
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                        }).launch();
+            }
+        } else if (requestCode == IdCardOn) {
+            if (data != null) {
+                PictureBean pictureBean = data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+                IdUrl2isActive = "2";
+                Luban.with(this)
+                        .load(pictureBean.getPath())
+                        .ignoreBy(100)
+                        .setTargetDir(Utility.getPath())
+                        .filter(new CompressionPredicate() {
+                            @Override
+                            public boolean apply(String path) {
+                                return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                            }
+                        })
+                        .setCompressListener(new OnCompressListener() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onSuccess(File file) {
+                                IdCard2_Url = file.getPath();
+                                id_card_the.setImageBitmap(BitmapFactory.decodeFile(IdCard2_Url));
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                        }).launch();
+            }
+        }
     }
 
     /************************************** 选取照片结束 ***********************************************************************/
+    //身份证证明识别
+    private void getIDCardIn() {
+        initSdk(getSecretId(), getSecretKey());
+        OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity2.this, OcrType.IDCardOCR_FRONT, null,
+                new ISDKKitResultListener() {
+                    @Override
+                    public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
+                        IdCardInfo tempIdCardInfo = new Gson().fromJson(response, IdCardInfo.class);
+                        Log.e("response", tempIdCardInfo.getRequestId());
+                        Log.e("response", tempIdCardInfo.toString());
+                        Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
+                        try {
+                            if (bitmap != null)
+                                id_card_is.setImageBitmap(bitmap);
+                            IdCard1_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
+                            IdUrl1isActive = "2";
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        IdName = tempIdCardInfo.getName();
+                        IdNumber = tempIdCardInfo.getIdNum();
+                        setResultListData();
+                    }
+
+                    @Override
+                    public void onProcessFailed(String errorCode, String message, String requestId) {
+                        popTip(errorCode, message);
+                        Log.e("requestId", requestId);
+                        IdName = "";
+                        IdNumber = "";
+                    }
+                });
+    }
+
+    //身份证反面
+    private void getIDCardOn() {
+        initSdk(getSecretId(), getSecretKey());
+        //弹出界面
+        OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity2.this, OcrType.IDCardOCR_FRONT, null,
+                new ISDKKitResultListener() {
+                    @Override
+                    public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
+                        IdCardInfo tempIdCardInfo = new Gson().fromJson(response, IdCardInfo.class);
+                        Log.e("response", tempIdCardInfo.getRequestId());
+                        Log.e("response", tempIdCardInfo.toString());
+                        Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
+                        try {
+                            if (bitmap != null)
+                                id_card_is.setImageBitmap(bitmap);
+                            IdCard1_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
+                            IdUrl1isActive = "2";
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        IdName = tempIdCardInfo.getName();
+                        IdNumber = tempIdCardInfo.getIdNum();
+                        setResultListData();
+                    }
+
+                    @Override
+                    public void onProcessFailed(String errorCode, String message, String requestId) {
+                        popTip(errorCode, message);
+                        Log.e("requestId", requestId);
+                        IdName = "";
+                        IdNumber = "";
+                    }
+                });
+    }
+
+    /**
+     * 选择时间
+     */
+    private void selectTime(TextView textView, int type) {
+        TimePickerView pvTime = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                //开始时间
+                if (type == 1) {
+                    s = TimeUtils.getTimes(date);
+                }
+                //结束时间
+                else {
+                    t = TimeUtils.getTimes(date);
+                }
+                textView.setText(TimeUtils.getTimes(date));
+            }
+        }).setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "时", "分", "秒")
+                .build();
+        pvTime.show();
+    }
 }
