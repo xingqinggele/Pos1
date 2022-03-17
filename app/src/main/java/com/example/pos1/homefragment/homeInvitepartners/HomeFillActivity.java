@@ -62,18 +62,32 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
     private TextView serverFourEightTv;
     private TextView serverNineNineTv;
     private TextView serverTwoNineNineTv;
+    private TextView flowTwoFourTv;
+
     private TextView flowThreeSixTv;
     private TextView flowNineNineTv;
     private TextView flowFourEightTv;
+
+    private TextView serverThreeSixTv_mine;
+    private TextView serverFourEightTv_mine;
+    private TextView serverNineNineTv_mine;
+    private TextView serverTwoNineNineTv_mine;
+    private TextView flowTwoFourTv_mine;
+
+    private TextView flowThreeSixTv_mine;
+    private TextView flowNineNineTv_mine;
+    private TextView flowFourEightTv_mine;
+
 
     private EditText serverThreeSixEdit;
     private EditText serverFourEightEdit;
     private EditText serverNineNineEdit;
     private EditText serverTwoNineNineEdit;
+    private EditText flowTwoFourEdit;
     private EditText flowThreeSixEdit;
     private EditText flowNineNineEdit;
     private EditText flowFourEightEdit;
-//    private SwitchButtonView mBtnSwitch;
+    private SwitchButtonView mBtnSwitch;
 
     private int num0 = 0;
     private int num1 = 0;
@@ -82,6 +96,9 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
     private int num4 = 0;
     private int num5 = 0;
     private int num6 = 0;
+    private int num7 = 0;
+
+    private String serverSwitch = "0";   //0 关 1开
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -101,18 +118,29 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         serverFourEightTv = findViewById(R.id.serverFourEightTv);
         serverNineNineTv = findViewById(R.id.serverNineNineTv);
         serverTwoNineNineTv = findViewById(R.id.serverTwoNineNineTv);
+        flowTwoFourTv = findViewById(R.id.flowTwoFourTv);
         flowThreeSixTv = findViewById(R.id.flowThreeSixTv);
         flowNineNineTv = findViewById(R.id.flowNineNineTv);
         flowFourEightTv = findViewById(R.id.flowFourEightTv);
+
+        serverThreeSixTv_mine = findViewById(R.id.serverThreeSixTv_mine);
+        serverFourEightTv_mine = findViewById(R.id.serverFourEightTv_mine);
+        serverNineNineTv_mine = findViewById(R.id.serverNineNineTv_mine);
+        serverTwoNineNineTv_mine = findViewById(R.id.serverTwoNineNineTv_mine);
+        flowTwoFourTv_mine = findViewById(R.id.flowTwoFour_mine);
+        flowThreeSixTv_mine = findViewById(R.id.flowThreeSixTv_mine);
+        flowNineNineTv_mine = findViewById(R.id.flowNineNineTv_mine);
+        flowFourEightTv_mine = findViewById(R.id.flowFourEightTv_mine);
 
         serverThreeSixEdit = findViewById(R.id.serverThreeSixEdit);
         serverFourEightEdit = findViewById(R.id.serverFourEightEdit);
         serverNineNineEdit = findViewById(R.id.serverNineNineEdit);
         serverTwoNineNineEdit = findViewById(R.id.serverTwoNineNineEdit);
+        flowTwoFourEdit = findViewById(R.id.flowTwoFourEdit);
         flowThreeSixEdit = findViewById(R.id.flowThreeSixEdit);
         flowNineNineEdit = findViewById(R.id.flowNineNineEdit);
         flowFourEightEdit = findViewById(R.id.flowFourEightEdit);
-//        mBtnSwitch = findViewById(R.id.swith_btn);
+        mBtnSwitch = findViewById(R.id.swith_btn);
 
 
         posData();
@@ -125,12 +153,23 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         js_flt1_relative.setOnClickListener(this);
         js_flt0_relative.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
+        mBtnSwitch.setmOnCheckedChangeListener(new SwitchButtonView.OnCheckedChangeListener() {
+            @Override
+            public void OnCheckedChanged(boolean isChecked) {
+                if (isChecked){
+                    serverSwitch = "1";
+                }else {
+                    serverSwitch = "0";
+                }
+            }
+        });
 
     }
 
     @Override
     protected void initData() {
         Status = getIntent().getStringExtra("type");
+        shouLog("Status",Status);
         if (Status.equals("2")) {
             accountId = getIntent().getStringExtra("accoundId");
             posDept();
@@ -170,6 +209,7 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
+    //获取类目
     private void newPosData(){
         RequestParams params = new RequestParams();
         params.put("userId", getUserId());
@@ -183,25 +223,42 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
                             new TypeToken<List<HomeNewFilBean>>() {
                             }.getType());
                     serverThreeSixTv.setText(homeNewFilBeans.get(0).getServerName());
+                    serverThreeSixTv_mine.setText("(0~"+homeNewFilBeans.get(0).getServerMoney()+")");
                     num0 = Integer.parseInt(homeNewFilBeans.get(0).getServerMoney());
 
                     serverFourEightTv.setText(homeNewFilBeans.get(1).getServerName());
+                    serverFourEightTv_mine.setText("(0~"+homeNewFilBeans.get(1).getServerMoney()+")");
                     num1 = Integer.parseInt(homeNewFilBeans.get(1).getServerMoney());
 
-                    serverNineNineTv.setText(homeNewFilBeans.get(2).getServerName());
                     num2 = Integer.parseInt(homeNewFilBeans.get(2).getServerMoney());
+                    serverNineNineTv.setText(homeNewFilBeans.get(2).getServerName());
+                    serverNineNineTv_mine.setText("(0~"+homeNewFilBeans.get(2).getServerMoney()+")");
+
 
                     serverTwoNineNineTv.setText(homeNewFilBeans.get(3).getServerName());
+                    serverTwoNineNineTv_mine.setText("(0~"+homeNewFilBeans.get(3).getServerMoney()+")");
                     num3 = Integer.parseInt(homeNewFilBeans.get(3).getServerMoney());
 
-                    flowThreeSixTv.setText(homeNewFilBeans.get(4).getServerName());
+
+
+                    flowTwoFourTv.setText(homeNewFilBeans.get(4).getServerName());
+                    flowTwoFourTv_mine.setText("(0~"+homeNewFilBeans.get(4).getServerMoney()+")");
                     num4 = Integer.parseInt(homeNewFilBeans.get(4).getServerMoney());
 
-                    flowFourEightTv.setText(homeNewFilBeans.get(5).getServerName());
-                    num5 = Integer.parseInt(homeNewFilBeans.get(5).getServerMoney());
 
-                    flowNineNineTv.setText(homeNewFilBeans.get(6).getServerName());
+                     flowThreeSixTv.setText(homeNewFilBeans.get(5).getServerName());
+                    flowThreeSixTv_mine.setText("(0~"+homeNewFilBeans.get(5).getServerMoney()+")");
+                     num5 = Integer.parseInt(homeNewFilBeans.get(5).getServerMoney());
+
+
+
+                    flowFourEightTv.setText(homeNewFilBeans.get(6).getServerName());
+                    flowFourEightTv_mine.setText("(0~"+homeNewFilBeans.get(6).getServerMoney()+")");
                     num6 = Integer.parseInt(homeNewFilBeans.get(6).getServerMoney());
+
+                    flowNineNineTv.setText(homeNewFilBeans.get(7).getServerName());
+                    flowNineNineTv_mine.setText("(0~"+homeNewFilBeans.get(7).getServerMoney()+")");
+                    num7 = Integer.parseInt(homeNewFilBeans.get(7).getServerMoney());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -214,7 +271,6 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
-
 
 
     //获取已填写的类别数据
@@ -231,6 +287,22 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
                     type1 = data.getJSONObject("rateT0").getString("id");
                     js_flt0_tv.setText(data.getJSONObject("qrsettleRate").getString("name"));
                     type2 = data.getJSONObject("qrsettleRate").getString("id");
+                    serverThreeSixEdit.setText(data.getString("serverThirtySix"));
+                    serverFourEightEdit.setText(data.getString("serverFortyEight"));
+                    serverNineNineEdit.setText(data.getString("serverNinetyNine"));
+                    serverTwoNineNineEdit.setText(data.getString("serverTwoNinetyNine"));
+                    flowTwoFourEdit.setText(data.getString("flowTwoFour"));
+                    flowThreeSixEdit.setText(data.getString("flowThirtySix"));
+                    flowFourEightEdit.setText(data.getString("flowFortyEight"));
+                    flowNineNineEdit.setText(data.getString("flowNinetyNine"));
+                    serverSwitch = data.getString("serverSwitch");
+                    if(data.getString("serverSwitch").equals("0")) {
+                        mBtnSwitch.setChecked(false);
+
+                    }else {
+                        mBtnSwitch.setChecked(true);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -243,6 +315,7 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         });
     }
 
+
     //提交数据
     private void subMit() {
         RequestParams params = new RequestParams();
@@ -250,11 +323,13 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         params.put("qrsettleRate", type2);
         params.put("serverThirtySix", serverThreeSixEdit.getText().toString().trim());
         params.put("serverFortyEight", serverFourEightEdit.getText().toString().trim());
-        params.put("serverNineNineEdit", serverThreeSixEdit.getText().toString().trim());
-        params.put("serverTwoNineNineEdit", serverThreeSixEdit.getText().toString().trim());
-        params.put("flowThreeSixEdit", serverThreeSixEdit.getText().toString().trim());
-        params.put("flowNineNineEdit", serverThreeSixEdit.getText().toString().trim());
-        params.put("flowFourEightEdit", serverThreeSixEdit.getText().toString().trim());
+        params.put("serverNinetyNine", serverNineNineEdit.getText().toString().trim());
+        params.put("serverTwoNinetyNine", serverTwoNineNineEdit.getText().toString().trim());
+        params.put("flowTwoFour", flowTwoFourEdit.getText().toString().trim());
+        params.put("flowThirtySix", flowThreeSixEdit.getText().toString().trim());
+        params.put("flowFortyEight", flowFourEightEdit.getText().toString().trim());
+        params.put("flowNinetyNine", flowNineNineEdit.getText().toString().trim());
+        params.put("serverSwitch", serverSwitch);
         HttpRequest.postOpenAccount(params, "", new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
@@ -287,6 +362,15 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
         params.put("accountId", accountId);
         params.put("rateT0", type1);
         params.put("qrsettleRate", type2);
+        params.put("serverThirtySix", serverThreeSixEdit.getText().toString().trim());
+        params.put("serverFortyEight", serverFourEightEdit.getText().toString().trim());
+        params.put("serverNinetyNine", serverNineNineEdit.getText().toString().trim());
+        params.put("serverTwoNinetyNine", serverTwoNineNineEdit.getText().toString().trim());
+        params.put("flowTwoFour", flowTwoFourEdit.getText().toString().trim());
+        params.put("flowThirtySix", flowThreeSixEdit.getText().toString().trim());
+        params.put("flowFortyEight", flowFourEightEdit.getText().toString().trim());
+        params.put("flowNinetyNine", flowNineNineEdit.getText().toString().trim());
+        params.put("serverSwitch", serverSwitch);
         HttpRequest.putOpenAccount(params, "", new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
@@ -312,6 +396,7 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
+
 
     //结算费率T1
     private void initReason1(List<FillBean> mList, TextView tv) {
@@ -358,31 +443,48 @@ public class HomeFillActivity extends BaseActivity implements View.OnClickListen
                     return;
                 }
                 if (num0 < Integer.parseInt(serverThreeSixEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+                    shouLog("111","----------------");
+                    serverThreeSixEdit.setError("不能大于基本值");
                     return;
                 }
                 if (num1 < Integer.parseInt(serverFourEightEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+                    shouLog("222","----------------");
+                    serverFourEightEdit.setError("不能大于基本值");
                     return;
                 }
                 if (num2 < Integer.parseInt(serverNineNineEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+                    shouLog("333","----------------");
+                    serverNineNineEdit.setError("不能大于基本值");
+
                     return;
                 }
                 if (num3 < Integer.parseInt(serverTwoNineNineEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+                    shouLog("444","----------------");
+                    serverTwoNineNineEdit.setError("不能大于基本值");
                     return;
                 }
-                if (num4 < Integer.parseInt(flowThreeSixEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+
+                if (num4 < Integer.parseInt(flowTwoFourEdit.getText().toString().trim())){
+                    shouLog("555","----------------");
+                    flowTwoFourEdit.setError("不能大于基本值");
                     return;
                 }
-                if (num5 < Integer.parseInt(flowNineNineEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+
+
+                if (num5 < Integer.parseInt(flowThreeSixEdit.getText().toString().trim())){
+                    shouLog("666","----------------");
+                    flowThreeSixEdit.setError("不能大于基本值");
                     return;
+
                 }
                 if (num6 < Integer.parseInt(flowFourEightEdit.getText().toString().trim())){
-                    showToast(3, "不能大于基本值");
+                    shouLog("777","----------------");
+                    flowFourEightEdit.setError("不能大于基本值");
+                    return;
+                }
+                if (num7 < Integer.parseInt(flowNineNineEdit.getText().toString().trim())){
+                    shouLog("888","----------------");
+                    flowNineNineEdit.setError("不能大于基本值");
                     return;
                 }
                 if (Status.equals("1")) {

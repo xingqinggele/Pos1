@@ -906,5 +906,16 @@ public class HttpRequest {
     }
 
 
+/**
+     *伙伴费率 回显
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getParntEchoServer(RequestParams params, String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/api/v2/merchant/echoRate", params, token, callback, null);
+    }
+
+
 
 }
