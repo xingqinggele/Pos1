@@ -814,6 +814,31 @@ public class HttpRequest {
     public static void getOperation(RequestParams params, String token, ResponseCallback callback) {
         RequestMode.postRequest(Urls.commUrls + "noauth/posv1/Operation", params, token, callback, null);
     }
+
+
+    /**
+     * 新的商户报件上传
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getNewOperation(RequestParams params, String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "noauth/posv1/insertMerchantEntry", params, token, callback, null);
+    }
+
+
+ /**
+     * 提醒后台商户报件
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getNewOutOperation(RequestParams params, String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "noauth/posv1/new/Operation", params, token, callback, null);
+    }
+
+
+
     /**
      * 商户报件修改
      *

@@ -400,14 +400,16 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         params.put("idcardback",IdUrl2);
         params.put("bankcardfront",bUrl1);
         params.put("bankcardback",bUrl2);
-        HttpRequest.getOperation(params, "", new ResponseCallback() {
+        HttpRequest.getNewOperation(params, getToken(), new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
                 loadDialog.dismiss();
                 try {
                     JSONObject result = new JSONObject(responseObj.toString());
-                    showToast(3,result.getString("retMsge"));
-                    //成功
+                    if (result.getString("code").equals("200")){
+                        getNewOutOperation(result.getString("id"));
+                    }
+//                    成功
                     HomeQuoteActivity2.instance.finish();
                     HomeQuoteActivity1.instance.finish();
                     finish();
@@ -659,4 +661,26 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         });
 
     }
+
+
+     // 提醒后台进行报件提交
+    private void getNewOutOperation(String id){
+        RequestParams params = new RequestParams();
+        params.put("id",id);
+        HttpRequest.getNewOutOperation(params, getToken(), new ResponseCallback() {
+            @Override
+            public void onSuccess(Object responseObj) {
+
+            }
+
+            @Override
+            public void onFailure(OkHttpException failuer) {
+
+            }
+        });
+        finish();
+    }
+
+
+
 }
