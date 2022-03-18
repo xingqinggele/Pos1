@@ -52,7 +52,6 @@
             android:src="@mipmap/head" />
 
         <TextView
-            android:text="张三"
             android:id="@+id/me_merchants_detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +61,6 @@
             android:textSize="18sp" />
 
         <TextView
-            android:text="2022-03-25"
             android:id="@+id/me_merchants_detail_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,11 +83,16 @@
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="9dp"
         android:id="@+id/merchants_detail_swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+      >
 
         <android.support.v7.widget.RecyclerView
+
             android:id="@+id/merchants_detail_recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

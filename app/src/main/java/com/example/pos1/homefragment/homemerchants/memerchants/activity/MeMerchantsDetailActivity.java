@@ -10,12 +10,16 @@ import android.widget.TextView;
 
 import com.example.pos1.R;
 import com.example.pos1.base.BaseActivity;
+import com.example.pos1.homefragment.homeintegral.bean.IntegralAllBean;
 import com.example.pos1.homefragment.homemerchants.memerchants.adapter.MerchatsDetailAdapter;
 import com.example.pos1.homefragment.homemerchants.memerchants.bean.MerchantsDetailBean;
 import com.example.pos1.net.HttpRequest;
 import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
 import com.example.pos1.net.ResponseCallback;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +70,6 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
         me_merchants_detail_number = findViewById(R.id.me_merchants_detail_number);
         merchants_detail_swipe = findViewById(R.id.merchants_detail_swipe);
         merchants_detail_recycle = findViewById(R.id.merchants_detail_recycle);
-        initList();
     }
 
     //事件绑定
@@ -80,8 +83,7 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
     protected void initData() {
         //接受列表页传递的列表ID
         MeMerchants_ID = getIntent().getStringExtra("MeMerchants_id");
-        //请求接口
-        posData();
+        initList();
     }
 
     //请求接口-->设备信息
@@ -91,19 +93,21 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
         HttpRequest.getQueryMyCommercialTenant(params, getToken(), new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
+                merchants_detail_swipe.setRefreshing(false);
+                Gson gson = new GsonBuilder().serializeNulls().create();
                 try {
                     JSONObject result = new JSONObject(responseObj.toString());
-//                    merchantName = result.getJSONObject("data").getString("merchantName");
+                    merchantName = result.getJSONObject("data").getString("merchName");
                     //显示商户姓名
-//                    me_merchants_detail_name.setText(merchantName);
-                    //显示入网时间
-//                    me_merchants_detail_time.setText("入网时间：" + result.getJSONObject("data").getString("netTime"));
-                    //商户编号
-//                    me_merchants_detail_number.setText("商户编号：" + result.getJSONObject("data").getString("merchCode"));
-//                    if (!"".equals(result.getJSONObject("data").getString("terminalCode")) && !"null".equals(result.getJSONObject("data").getString("terminalCode")) && null != result.getJSONObject("data").getString("terminalCode")) {
-//                        me_merchants_detail_sh_number.setText("终端编号：" + result.getJSONObject("data").getString("terminalCode"));
-//                    }
-
+                    me_merchants_detail_name.setText("姓名:"+merchantName);
+                    me_merchants_detail_time.setText("入网时间:"+result.getJSONObject("data").getString("activeTime"));
+                    me_merchants_detail_number.setText("商户编号:"+MeMerchants_ID);
+                    List<MerchantsDetailBean> mList = gson.fromJson(result.getJSONArray("list").toString(),
+                            new TypeToken<List<MerchantsDetailBean>>() {
+                            }.getType());
+                    merchantsDetailBeans.addAll(mList);
+                    merchatsDetailAdapter.loadMoreEnd();
+                    merchatsDetailAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -126,7 +130,6 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
         }
     }
 
-
     //适配列表、刷新控件、adapter
     public void initList() {
         //下拉样式
@@ -147,16 +150,20 @@ public class MeMerchantsDetailActivity extends BaseActivity implements View.OnCl
         merchants_detail_recycle.setLayoutManager(new LinearLayoutManager(this));
         //RecyclerView配置adapter
         merchants_detail_recycle.setAdapter(merchatsDetailAdapter);
-        //请求接口
-        posDate();
-    }
-
-    private void posDate() {
-
+        posData();
     }
 
     @Override
     public void onRefresh() {
-
+        //开启刷新
+        merchants_detail_swipe.setRefreshing(true);
+        //调用刷新逻辑
+        setRefresh();
     }
+
+    //处理刷新逻辑
+    private void setRefresh() {
+        posData();
+    }
+
 }

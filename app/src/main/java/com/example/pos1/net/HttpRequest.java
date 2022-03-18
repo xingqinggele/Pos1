@@ -923,7 +923,7 @@ public class HttpRequest {
      * @param callback
      */
     public static void getQueryMyCommercialTenant(RequestParams params, String token, ResponseCallback callback) {
-        RequestMode.postRequest(Urls.commUrls + "/pos/api/v1/merchant/queryMyCommercialTenant", params, token, callback, null);
+        RequestMode.postRequest(Urls.commUrls + "pos/api/v1/merchant/queryMyCommercialTenant", params, token, callback, null);
     }
 
 
