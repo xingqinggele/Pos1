@@ -72,7 +72,7 @@ public class BusinessNewsAdapter extends BaseQuickAdapter<BusMessageBean, BaseVi
             helper.setVisible(R.id.my_tv,true);
 
         } else if (item.getMsgType().equals("9")){
-            title = "订单超时";
+            title = "报件通知";
             src = R.mipmap.business_message_iv1;
             helper.setVisible(R.id.my_tv,false);
         }else {

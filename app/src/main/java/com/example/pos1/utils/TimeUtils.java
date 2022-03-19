@@ -148,6 +148,14 @@ public class TimeUtils {
         return format.format(date);
     }
 
+    public static String getNewTimes(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        return format.format(date);
+    }
+
+
+
+
     /**
      * 比较当前时间和服务器返回时间大小
      *

@@ -133,6 +133,8 @@ public class BusinessMessageFragment extends BaseFragment implements SwipeRefres
 //                        intent1.putExtra("pageCode", "1");
 //                        startActivity(intent1);
                             break;
+                        case "9":
+                            break;
                         default:
                             break;
                     }

@@ -209,6 +209,7 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
             id_card_the.setImageURI(bUrl2);
             bNumber.setText(BankNum);
         }
+
     }
 
     @Override
@@ -615,6 +616,9 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         tv_select_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (popWindow.isShowing()) {
+                    popWindow.dismiss();
+                }
                 initSdk(getSecretId(), getSecretKey());
                 OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity3.this, OcrType.BankCardOCR,
                         CustomConfigUtil.getInstance().getCustomConfigUi(), new ISDKKitResultListener() {
