@@ -493,6 +493,17 @@ public class HttpRequest {
         RequestMode.postRequest(Urls.commUrls + "pos/api/v2/payment/doCashOut", params, token, callback, null);
     }
 
+    /**
+     * 提交新提现接口
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getNewPayWithdrawal(RequestParams params, String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "xinLong/signed/withdrawal/submitGrantDetail", params,token,callback, null);
+    }
+
+
 
     /**
      * 个人业绩 ----- 日交易量、月交易量
@@ -952,5 +963,177 @@ public class HttpRequest {
     }
 
 
+    /**
+     * 查询是否签约接口
+     *
+     * @param params
+     * @param callback
+     * @param token
+     */
+    public static void getSigning(RequestParams params, String token ,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "xinLong/signed/withdrawal/echoReceiver",params,token,callback, null);
+    }
 
+
+
+    /**
+     * 签约新接口接口
+     *
+     * @param params
+     * @param callback
+     */
+    public static void postAddReceiverNew(RequestParams params, String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "xinLong/signed/withdrawal/submitCreateUser", params, token,callback, null);
+    }
+
+    /**
+     * 获取新费率
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posEchoFeeId(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/echoFeeId", params,token, callback, null);
+    }
+
+    /**
+     * 获取省市区
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getArea(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.getRequest2(Urls.commUrls + "pos/merchantInfo/getArea", params, token,callback, null);
+    }
+
+    /**
+     * 获取详情信息
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posMerchantInfo(RequestParams params,String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/getMerchantInfo", params, token,callback, null);
+    }
+    /**
+     * 银行编码
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getBanks(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.getRequest2(Urls.commUrls + "pos/merchantInfo/banks", params,token, callback, null);
+    }
+
+
+    /**
+     * 支行信息
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getBranchs(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.getRequest2(Urls.commUrls + "pos/merchantInfo/branchs", params, token,callback, null);
+    }
+
+
+    /**
+     * 修改报件信息
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posMerchantEdit(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/update/merchant/info", params, token,callback, null);
+    }
+
+    /**
+     * PosP报件上传
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getPosPOperation(RequestParams params, String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/add/merchant/info", params,token,callback, null);
+    }
+
+    /**
+     * 获取新商户列表
+     *
+     * @param params
+     * @param callback
+     */
+    public static void postFyMerch(RequestParams params,String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/get/myMerch", params,token,callback, null);
+    }
+
+    /**
+     *  判断设备是否有押
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posJudgeCashPledge(RequestParams params,String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/judgeCashPledge", params,token, callback, null);
+    }
+
+    /**
+     *  查询文件是否上传
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posWhetherPhotoVideo(RequestParams params,String token, ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/whetherPhotoVideo", params,token,callback, null);
+    }
+
+    /**
+     * 绑定设备
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posBindCode(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/binding/posCode", params,token,callback, null);
+    }
+
+    /**
+     * 签名上传
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posPhotoUpload(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/photoUpload", params, token, callback, null);
+    }
+
+    /**
+     * 签字提示语句
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posSignature(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/nuclearbody/signature", params, token, callback, null);
+    }
+
+    /**
+     * 获取FaceID
+     *
+     * @param params
+     * @param callback
+     */
+    public static void postFaceID(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/nuclearbody/getFaceID", params, token, callback, null);
+    }
+
+    /**
+     * 视频上传
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posVideoUpload(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/videoUpload", params, token,callback, null);
+    }
 }

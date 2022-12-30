@@ -642,6 +642,306 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/sixtyRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/sixty_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/sixtyTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/sixty_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#F80C0C"
+                    android:id="@+id/sixty_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/sixtyTv"
+                    android:text="(0~100)"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+                    android:id="@+id/sixtyEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/sixty_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/serverOneNinetyNineRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/serverOneNinetyNine_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/serverOneNinetyNineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverOneNinetyNine_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#F80C0C"
+                    android:id="@+id/serverOneNinetyNine_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverOneNinetyNineTv"
+                    android:text="(0~100)"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+                    android:id="@+id/serverOneNinetyNineEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/serverOneNinetyNine_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/serverFortyNineRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/serverFortyNine_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/serverFortyNineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverFortyNine_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#F80C0C"
+                    android:id="@+id/serverFortyNine_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/serverFortyNineTv"
+                    android:text="(0~100)"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+                    android:id="@+id/serverFortyNineEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/serverFortyNine_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/flowSixtyRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/flowSixty_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/flowSixtyTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/flowSixty_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#F80C0C"
+                    android:id="@+id/flowSixty_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/flowSixtyTv"
+                    android:text="(0~100)"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+                    android:id="@+id/flowSixtyEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/flowSixty_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#F3F3F3" />
+            <RelativeLayout
+                android:id="@+id/threeninenineRelative"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:id="@+id/threeninenine_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="*"
+                    android:textColor="#F80C0C"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/threeninenineTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/threeninenine_tv2"
+                    android:text="扫码结算"
+                    android:textColor="#302F2F"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#F80C0C"
+                    android:id="@+id/threeninenineTv_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/threeninenineTv"
+                    android:text="(0~100)"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:singleLine="true"
+                    android:numeric="integer"
+                    android:paddingRight="11dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="right|center"
+                    android:text="0"
+                    android:id="@+id/threeninenineTvEdit"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/threeninenineTv_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+
+            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>

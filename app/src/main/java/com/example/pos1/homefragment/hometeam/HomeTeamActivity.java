@@ -72,7 +72,7 @@ public class HomeTeamActivity extends BaseActivity implements SwipeRefreshLayout
     //页码
     private int mCount = 1;
     //请求数据数量
-    private int pageSize = 20;
+    private int pageSize = 3;
     //排序按钮
     private TextView team_sorting;
     //搜索内容

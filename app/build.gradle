@@ -10,18 +10,34 @@ android {
         applicationId "com.example.pos1"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 23
-        versionName "2.5.0"
+        versionCode 36
+        versionName "3.8.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            // 设置支持的SO库架构 可以按照app需要进行设置
+            // sdk默认有'armeabi', 'armeabi-v7a',  'arm64-v8a'三个平台
+            abiFilters 'armeabi' , 'armeabi-v7a',  'arm64-v8a'
+        }
     }
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+
+    signingConfigs {
+        config {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('debug.keystore')
+            storePassword 'android'
+        }
     }
+
 
     buildTypes {
         release {
+            minifyEnabled false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -30,11 +46,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    //去manifest除警告
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+    repositories {
+        flatDir {
+            dirs 'libs' //this way we can find the .aar file in libs folder
+        }
+    }
 }
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation files('libs\\core-3.4.1.jar')
+    implementation files('libs\\AMap_Location_V6.1.0_20220402.jar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -86,4 +112,17 @@ dependencies {
     implementation 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
     //图片压缩工具
     implementation 'top.zibin:Luban:1.1.8'
+
+//    implementation 'com.github.yuzhiqiang1993:zxing:2.1.4'
+    //1. 云刷脸SDK
+    implementation(name: 'WbCloudFaceLiveSdk-v4.6.0.3-20776dc9', ext: 'aar')
+    //2. 云common SDK
+    implementation(name: 'WbCloudNormal-v5.1.3-0f08e6d', ext: 'aar')
+    //3.意愿性组件
+    implementation(name: 'WbCloudFaceWillSdk-pro-v1.0.0.3-20776dc9', ext: 'aar')
+    //录屏
+    implementation 'com.blankj:utilcode:1.24.4'
+    implementation 'com.github.nanchen2251:ScreenRecordHelper:1.0.2'
+    //视频压缩
+    implementation 'com.github.yellowcath:VideoProcessor:2.3.0'
 }

@@ -121,7 +121,7 @@ public class JWebSocketClientService extends Service {
     }
 
     private Notification getNotification() {
-        Notification.Builder builder = new Notification.Builder(this.getApplicationContext()).setSmallIcon(R.mipmap.applogo);
+        Notification.Builder builder = new Notification.Builder(this.getApplicationContext()).setSmallIcon(R.mipmap.aa);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //修改安卓8.1以上系统报错
             NotificationChannel notificationChannel = new NotificationChannel("mp_msg", "mp_msg_name", NotificationManager.IMPORTANCE_LOW);
@@ -296,7 +296,7 @@ public class JWebSocketClientService extends Service {
                 } else if (result.getString("msgType").equals("8")) {
                     title = "返积分";
                 } else if (result.getString("msgType").equals("9")){
-                    title = "订单超时";
+                    title = "报件通知";
                 }else {
                     title = "未知";
                 }
@@ -321,7 +321,7 @@ public class JWebSocketClientService extends Service {
                     .setWhen(System.currentTimeMillis())
                     /**设置该通知优先级**/
                     .setPriority(Notification.PRIORITY_DEFAULT)
-                    .setSmallIcon(R.mipmap.applogo)
+                    .setSmallIcon(R.mipmap.aa)
                     .setContentTitle(title)
                     .setContentText(msgContent)
                     .setContentIntent(pendingIntent);

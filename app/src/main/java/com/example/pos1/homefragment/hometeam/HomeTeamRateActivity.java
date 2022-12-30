@@ -75,6 +75,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
     private TextView flowThreeSixTv;
     private TextView flowNineNineTv;
     private TextView flowFourEightTv;
+    private TextView sixtyTv;
+
+    private TextView serverOneNinetyNineTv;
+    private TextView serverFortyNineTv;
+    private TextView flowSixtyTv;
+
+    private TextView threeninenineTv;
+
     private TextView serverThreeSixTv_mine;
     private TextView serverFourEightTv_mine;
     private TextView serverNineNineTv_mine;
@@ -83,6 +91,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
     private TextView flowThreeSixTv_mine;
     private TextView flowNineNineTv_mine;
     private TextView flowFourEightTv_mine;
+    private TextView sixty_mine;
+
+    private TextView serverOneNinetyNine_mine;
+    private TextView serverFortyNine_mine;
+    private TextView flowSixty_mine;
+    private TextView threeninenineTv_mine;
+
+
     private EditText serverThreeSixEdit;
     private EditText serverFourEightEdit;
     private EditText serverNineNineEdit;
@@ -91,6 +107,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
     private EditText flowThreeSixEdit;
     private EditText flowNineNineEdit;
     private EditText flowFourEightEdit;
+    private EditText sixtyEdit;
+
+    private EditText serverOneNinetyNineEdit;
+    private EditText serverFortyNineEdit;
+    private EditText flowSixtyEdit;
+
+    private EditText threeninenineTvEdit;
+
     private SwitchButtonView mBtnSwitch;
 
     private int num0 = 0;
@@ -101,7 +125,12 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
     private int num5 = 0;
     private int num6 = 0;
     private int num7 = 0;
+    private int num8 = 0;
 
+    private int num9 = 0;
+    private int num10 = 0;
+    private int num11 = 0;
+    private int num12 = 0;
 
     private String serverSwitch = "0";   //0 关 1开
 
@@ -129,6 +158,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
         flowThreeSixTv = findViewById(R.id.flowThreeSixTv);
         flowNineNineTv = findViewById(R.id.flowNineNineTv);
         flowFourEightTv = findViewById(R.id.flowFourEightTv);
+        sixtyTv = findViewById(R.id.sixtyTv);
+
+        serverOneNinetyNineTv = findViewById(R.id.serverOneNinetyNineTv);
+        serverFortyNineTv = findViewById(R.id.serverFortyNineTv);
+        flowSixtyTv = findViewById(R.id.flowSixtyTv);
+        threeninenineTv = findViewById(R.id.threeninenineTv);
+
+
 
         serverThreeSixTv_mine = findViewById(R.id.serverThreeSixTv_mine);
         serverFourEightTv_mine = findViewById(R.id.serverFourEightTv_mine);
@@ -138,6 +175,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
         flowThreeSixTv_mine = findViewById(R.id.flowThreeSixTv_mine);
         flowNineNineTv_mine = findViewById(R.id.flowNineNineTv_mine);
         flowFourEightTv_mine = findViewById(R.id.flowFourEightTv_mine);
+        sixty_mine = findViewById(R.id.sixty_mine);
+
+        serverOneNinetyNine_mine = findViewById(R.id.serverOneNinetyNine_mine);
+        serverFortyNine_mine = findViewById(R.id.serverFortyNine_mine);
+        flowSixty_mine = findViewById(R.id.flowSixty_mine);
+
+        threeninenineTv_mine = findViewById(R.id.threeninenineTv_mine);
+
 
         serverThreeSixEdit = findViewById(R.id.serverThreeSixEdit);
         serverFourEightEdit = findViewById(R.id.serverFourEightEdit);
@@ -147,6 +192,14 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
         flowThreeSixEdit = findViewById(R.id.flowThreeSixEdit);
         flowNineNineEdit = findViewById(R.id.flowNineNineEdit);
         flowFourEightEdit = findViewById(R.id.flowFourEightEdit);
+        sixtyEdit = findViewById(R.id.sixtyEdit);
+
+        serverOneNinetyNineEdit = findViewById(R.id.serverOneNinetyNineEdit);
+        serverFortyNineEdit = findViewById(R.id.serverFortyNineEdit);
+        flowSixtyEdit = findViewById(R.id.flowSixtyEdit);
+
+        threeninenineTvEdit = findViewById(R.id.threeninenineTvEdit);
+
         mBtnSwitch = findViewById(R.id.swith_btn);
 
         posData();
@@ -270,6 +323,36 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
                     return;
                 }
 
+                if (num8 < Integer.parseInt(sixtyEdit.getText().toString().trim())) {
+                    shouLog("999", "----------------");
+                    sixtyEdit.setError("不能大于基本值");
+                    return;
+                }
+
+                if (num9 < Integer.parseInt(serverOneNinetyNineEdit.getText().toString().trim())){
+                    shouLog("888","----------------");
+                    serverOneNinetyNineEdit.setError("不能大于基本值");
+                    return;
+                }
+
+                if (num10 < Integer.parseInt(serverFortyNineEdit.getText().toString().trim())){
+                    shouLog("888","----------------");
+                    serverFortyNineEdit.setError("不能大于基本值");
+                    return;
+                }
+
+                if (num11 < Integer.parseInt(flowSixtyEdit.getText().toString().trim())){
+                    shouLog("888","----------------");
+                    flowSixtyEdit.setError("不能大于基本值");
+                    return;
+                }
+
+                if (num12 < Integer.parseInt(threeninenineTvEdit.getText().toString().trim())) {
+                    shouLog("888", "----------------");
+                    threeninenineTvEdit.setError("不能大于基本值");
+                    return;
+                }
+
                 EditData();
                 break;
             case R.id.iv_back:
@@ -281,7 +364,7 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
     //获取类目
     private void newPosData() {
         RequestParams params = new RequestParams();
-        params.put("userId", parnterId);
+        params.put("userId", getUserId());
         HttpRequest.getEchoServer(params, "", new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
@@ -326,6 +409,27 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
                     flowNineNineTv.setText(homeNewFilBeans.get(7).getServerName());
                     flowNineNineTv_mine.setText("(0~" + homeNewFilBeans.get(7).getServerMoney() + ")");
                     num7 = Integer.parseInt(homeNewFilBeans.get(7).getServerMoney());
+
+
+                    sixtyTv.setText(homeNewFilBeans.get(8).getServerName());
+                    sixty_mine.setText("(0~" + homeNewFilBeans.get(8).getServerMoney() + ")");
+                    num8 = Integer.parseInt(homeNewFilBeans.get(8).getServerMoney());
+
+                    serverOneNinetyNineTv.setText(homeNewFilBeans.get(9).getServerName());
+                    serverOneNinetyNine_mine.setText("(0~"+homeNewFilBeans.get(9).getServerMoney()+")");
+                    num9 = Integer.parseInt(homeNewFilBeans.get(9).getServerMoney());
+
+                    serverFortyNineTv.setText(homeNewFilBeans.get(10).getServerName());
+                    serverFortyNine_mine.setText("(0~"+homeNewFilBeans.get(10).getServerMoney()+")");
+                    num10 = Integer.parseInt(homeNewFilBeans.get(10).getServerMoney());
+
+                    flowSixtyTv.setText(homeNewFilBeans.get(11).getServerName());
+                    flowSixty_mine.setText("(0~"+homeNewFilBeans.get(11).getServerMoney()+")");
+                    num11 = Integer.parseInt(homeNewFilBeans.get(11).getServerMoney());
+
+                    threeninenineTv.setText(homeNewFilBeans.get(12).getServerName());
+                    threeninenineTv_mine.setText("(0~" + homeNewFilBeans.get(12).getServerMoney() + ")");
+                    num12 = Integer.parseInt(homeNewFilBeans.get(12).getServerMoney());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -356,7 +460,17 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
                     flowThreeSixEdit.setText(data.getString("flowThirtySix"));
                     flowFourEightEdit.setText(data.getString("flowFortyEight"));
                     flowNineNineEdit.setText(data.getString("flowNinetyNine"));
+                    sixtyEdit.setText(data.getString("serverSixty"));
                     serverSwitch = data.getString("serverSwitch");
+
+                    serverOneNinetyNineEdit.setText(data.getString("serverOneNinetyNine"));
+                    serverFortyNineEdit.setText(data.getString("serverFortyNine"));
+                    flowSixtyEdit.setText(data.getString("flowSixty"));
+
+                    threeninenineTvEdit.setText(data.getString("serverThreeNinetyNine"));
+
+
+
                     if (data.getString("serverSwitch").equals("0")) {
                         mBtnSwitch.setChecked(false);
 
@@ -389,6 +503,13 @@ public class HomeTeamRateActivity extends BaseActivity implements View.OnClickLi
         params.put("flowThirtySix", flowThreeSixEdit.getText().toString().trim());
         params.put("flowFortyEight", flowFourEightEdit.getText().toString().trim());
         params.put("flowNinetyNine", flowNineNineEdit.getText().toString().trim());
+        params.put("serverSixty", sixtyEdit.getText().toString().trim());
+
+        params.put("serverOneNinetyNine", serverOneNinetyNineEdit.getText().toString().trim());
+        params.put("serverFortyNine", serverFortyNineEdit.getText().toString().trim());
+        params.put("flowSixty", flowSixtyEdit.getText().toString().trim());
+        params.put("serverThreeNinetyNine", threeninenineTvEdit.getText().toString().trim());
+
         params.put("serverSwitch", serverSwitch);
         HttpRequest.putModifyRate(params, getToken(), new ResponseCallback() {
             @Override

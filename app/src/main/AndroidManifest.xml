@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.pos1">
     <!--摄像头使用权限-->
     <uses-feature android:name="android.hardware.camera" />
@@ -19,15 +20,36 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+    <!--如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明-->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <application
         android:name=".app.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/aa"
-        android:label="@string/app_name"
+        android:label="@string/app_new_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/aa"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="stateVisible|adjustResize"
+        tools:replace="android:icon,android:allowBackup,android:label">
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="8d622f9733c5e907a59422ec214c68ed" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -36,7 +58,7 @@
             android:name=".socket.JWebSocketClientService"
             android:enabled="true"
             android:exported="true" />
-<!--        android:name=".useractivity.WelcomeActivity"-->
+
         <activity
             android:name=".useractivity.WelcomeActivity"
             android:configChanges="screenSize|keyboardHidden|orientation"
@@ -271,7 +293,6 @@
         <activity
             android:name=".mefragment.mereferees.MeRefereesActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--<activity android:name=".Demo"  android:configChanges="screenSize|keyboardHidden|orientation"/>-->
         <!--扫码界面-->
         <activity
             android:name=".cap.android.CaptureActivity"
@@ -292,31 +313,31 @@
         <activity
             android:name=".datafragment.databill.DataBillDetailActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        结算详情-->
+        <!--结算详情-->
         <activity
             android:name=".datafragment.DataBillSettlementDetailActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        商户转移-->
+        <!--商户转移-->
         <activity
             android:name=".homefragment.homemerchants.memerchants.activity.MeMerchantsTransferActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        积分兑换选择兑换对象-->
+        <!--积分兑换选择兑换对象-->
         <activity
             android:name=".homefragment.homeintegral.HomeIntegralOrderPersonActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        我的收货地址-->
+        <!--我的收货地址-->
         <activity
             android:name=".mefragment.meaddres.MeAddressActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        新增收货地址-->
+        <!--新增收货地址-->
         <activity
             android:name=".mefragment.meaddres.NewAddressActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        轮播图详情页-->
+        <!--轮播图详情页-->
         <activity
             android:name=".useractivity.HomeAdvPictureActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        回调选择人-->
+        <!--回调选择人-->
         <activity
             android:name=".homefragment.homeequipment.CallbackPersonActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
@@ -324,7 +345,9 @@
         <activity
             android:name=".datafragment.datapersonalresults.DataTotalResultsActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <activity android:name=".homefragment.shopping.ShoppingListActivity" />
+        <activity
+            android:name=".homefragment.shopping.ShoppingListActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
         <!--积分极具列表-->
         <activity
             android:name=".homefragment.homeintegral.IntegralMostActivity"
@@ -349,26 +372,78 @@
         <activity
             android:name=".homefragment.homequoteactivity.HomeQuoteActivity2"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        商户报件3-->
+        <!--商户报件3-->
         <activity
             android:name=".homefragment.homequoteactivity.HomeQuoteActivity3"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        填写生成二维码界面-->
+        <!--填写生成二维码界面-->
         <activity
             android:name=".homefragment.homeInvitepartners.HomeFillActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity android:name=".homefragment.homelibao.LiBaoActivity" />
-        <!--        我的费率-->
+        <!--我的费率-->
         <activity
             android:name=".mefragment.mefeilv.MeFeilvActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        交易记录-->
+        <!--交易记录-->
         <activity
             android:name=".homefragment.transaction.TransactionActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <!--        修改伙伴费率-->
+        <!--修改伙伴费率-->
         <activity
             android:name=".homefragment.hometeam.HomeTeamRateActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--报件成功-->
+        <activity
+            android:name=".homefragment.homequoteactivity.QuoteSucceccActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--签约界面-->
+        <activity
+            android:name=".mefragment.setup.MeSigningActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--电子签约-->
+        <activity
+            android:name=".mefragment.setup.SiginWebActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--新修改报件-->
+        <activity
+            android:name=".newprojectview.editMerchats.EditNewMerchantsActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--posP商户报件1-->
+        <activity
+            android:name=".newprojectview.AddMerchantsActivity1"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--posP商户报件2-->
+        <activity
+            android:name=".newprojectview.AddMerchantsActivity2"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--posP商户报件3-->
+        <activity
+            android:name=".newprojectview.AddMerchantsActivity3"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--设备绑定-->
+        <activity
+            android:name=".newprojectview.BindingEquipmentActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--设备绑定、签字-->
+        <activity
+            android:name=".newprojectview.BindingEquipmentSigningActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--选择报件渠道-->
+        <activity
+            android:name=".newprojectview.ChooseQuoteChannelActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--新商户列表-->
+        <activity
+            android:name=".newprojectview.NewMeQuoteActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--报件资料流程-->
+        <activity
+            android:name=".newprojectview.ProcessActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <!--测试人脸核身功能-->
+        <activity
+            android:name=".newprojectview.VideoNuclearActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
     </application>
 

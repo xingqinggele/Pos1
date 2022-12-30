@@ -66,6 +66,24 @@ public class CommonRequest {
   }
 
   /**
+   * 创建Get请求的Request
+   */
+  public static Request createGetRequest2(String url,String bearer, RequestParams params) {
+    StringBuilder urlBuilder = new StringBuilder(url).append("?");
+
+    if (params != null) {
+      for (Map.Entry<String, String> entry : params.urlParams.entrySet()) {
+        urlBuilder
+                .append(entry.getKey())
+                .append("=")
+                .append(entry.getValue())
+                .append("&");
+      }
+    }
+    return new Request.Builder().addHeader("Authorization",bearer).url(urlBuilder.substring(0, urlBuilder.length() - 1)).get().build();
+  }
+
+  /**
    * 创建Post请求的Request
    * application/json
    * bearer token

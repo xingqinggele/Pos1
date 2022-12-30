@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.text.format.Formatter;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
 
@@ -70,5 +74,34 @@ public class Utils {
             overlay.clear();
         }
 
+    }
+
+    public static String getLocalIPAddress (Context context) {
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        String ipAddress = FormatIP(wifiInfo.getIpAddress());
+        return ipAddress;
+    }
+
+    public static String FormatIP (int ip) {
+        return Formatter.formatIpAddress(ip);
+    }
+
+    /**
+     * @author:程龙 date; On 2018/8/13
+     */
+
+
+    /**
+     * 手机是否开启位置服务，如果没有开启那么所有app将不能使用定位功能
+     */
+    public static boolean isLocServiceEnable(Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (gps || network) {
+            return true;
+        }
+        return false;
     }
 }

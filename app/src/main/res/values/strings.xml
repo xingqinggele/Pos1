@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">晟联盟</string>
+    <string name="app_new_name">晟联盟</string>
     <string name="policy_tv"><u>相关隐私政策</u></string>
     <string name="agreement_tv"><u>相关服务协议</u></string>
     <string name="version_title">正在下载 :%d%%</string>

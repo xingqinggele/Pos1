@@ -129,6 +129,9 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
     private PopupWindow popWindow;
     private View popView;
     private int BankCardIn = 1006;
+
+    // 需要关闭
+    public static HomeQuoteActivity3 instance = null;
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -138,6 +141,7 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initView() {
+        instance = this;
         // 初始化腾讯存储桶
         cosXmlService = CosServiceFactory.getCosXmlService(this, region, getSecretId(), getSecretKey(), true);
         TransferConfig transferConfig = new TransferConfig.Builder().build();
@@ -407,13 +411,18 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
                 loadDialog.dismiss();
                 try {
                     JSONObject result = new JSONObject(responseObj.toString());
-                    if (result.getString("code").equals("200")){
-                        getNewOutOperation(result.getString("id"));
+                    shouLog("11111111111",result.getString("data"));
+                    if (result.getString("data").equals("true")){
+                        Intent intent = new Intent(HomeQuoteActivity3.this, QuoteSucceccActivity.class);
+                        intent.putExtra("id",result.getString("id"));
+                        startActivity(intent);
+                    } else {
+                        showToast(2,result.getString("retMsge")+"");
+                        HomeQuoteActivity2.instance.finish();
+                        HomeQuoteActivity1.instance.finish();
+                        finish();
                     }
-//                    成功
-                    HomeQuoteActivity2.instance.finish();
-                    HomeQuoteActivity1.instance.finish();
-                    finish();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -422,6 +431,9 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
 
             @Override
             public void onFailure(OkHttpException failuer) {
+                HomeQuoteActivity2.instance.finish();
+                HomeQuoteActivity1.instance.finish();
+                finish();
                 loadDialog.dismiss();
                 Failuer(failuer.getEcode(), failuer.getEmsg());
             }
@@ -593,7 +605,6 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         OcrSDKKit.getInstance().release();
     }
 
-
     /**
      * 弹出框
      *
@@ -665,26 +676,5 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         });
 
     }
-
-
-     // 提醒后台进行报件提交
-    private void getNewOutOperation(String id){
-        RequestParams params = new RequestParams();
-        params.put("id",id);
-        HttpRequest.getNewOutOperation(params, getToken(), new ResponseCallback() {
-            @Override
-            public void onSuccess(Object responseObj) {
-
-            }
-
-            @Override
-            public void onFailure(OkHttpException failuer) {
-
-            }
-        });
-        finish();
-    }
-
-
 
 }

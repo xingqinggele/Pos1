@@ -64,6 +64,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             Manifest.permission.READ_EXTERNAL_STORAGE,
             //通知权限
             Manifest.permission.ACCESS_NOTIFICATION_POLICY,
+            //定位
+            Manifest.permission.ACCESS_FINE_LOCATION
 
     };
 

@@ -31,6 +31,8 @@ import com.example.pos1.net.HttpRequest;
 import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
 import com.example.pos1.net.ResponseCallback;
+import com.example.pos1.newprojectview.ChooseQuoteChannelActivity;
+import com.example.pos1.newprojectview.NewMeQuoteActivity;
 import com.example.pos1.useractivity.HomeAdvPictureActivity;
 import com.example.pos1.utils.GlideImageLoader;
 import com.example.pos1.utils.SPUtils;
@@ -214,17 +216,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 if (Code.equals("2")) {
                     showDialog();
                 } else {
-                    startActivity(new Intent(getActivity(), MeMerchantsActivity.class));
+//                    startActivity(new Intent(getActivity(), MeMerchantsActivity.class));
+                    startActivity(new Intent(getActivity(), NewMeQuoteActivity.class));
                 }
+
+
                 break;
             //商户报件
             case R.id.main_home_invite_partners:
                 if (Code.equals("2")) {
                     showDialog();
                 } else {
-                    Intent intent = new Intent(getActivity(),HomeQuoteActivity1.class);
-                    intent.putExtra("type","1");
-                    intent.putExtra("bj_type","no");
+//                    Intent intent = new Intent(getActivity(),HomeQuoteActivity1.class);
+//                    intent.putExtra("type","1");
+//                    intent.putExtra("bj_type","no");
+//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), ChooseQuoteChannelActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -323,7 +330,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     JSONObject result = new JSONObject(responseObj.toString());
                     //月交易总额
                     monthlyTransAmount = new BigDecimal(result.getJSONObject("data").getString("monthlyTransAmount")).toString();
-//                    monthlyTransAmount = new BigDecimal("170548832.01").toString();
                     //月新增伙伴
                     monthlyNewPartnerCounts = result.getJSONObject("data").getString("monthlyNewPartnerCounts");
                     //月新增商户数

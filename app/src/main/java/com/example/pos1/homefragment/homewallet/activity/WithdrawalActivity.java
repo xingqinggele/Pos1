@@ -157,7 +157,6 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.all_tv:
-//                withdrawal_money_ed.setText("1");
                 withdrawal_money_ed.setText(walletAmount);
                 break;
         }
@@ -186,7 +185,6 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         TextView pay_dialog_minimum_rate_tv = view.findViewById(R.id.pay_dialog_minimum_rate_tv);
         //dialog关闭按钮
         LinearLayout pay_dialog_kill = view.findViewById(R.id.pay_dialog_kill);
-
         //显示钱包类型
         pay_dialog_wallet_type_tv.setText(type);
         //显示提现金额
@@ -264,7 +262,8 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         RequestParams params = new RequestParams();
         params.put("cashOutAmount", amount);
         params.put("accountType", type);  //1 结算账户 2 激活奖励
-        HttpRequest.getPayWithdrawal(params, getToken(), new ResponseCallback() {
+        params.put("userId",getUserId());
+        HttpRequest.getNewPayWithdrawal(params, "", new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
                 //关闭加载框
