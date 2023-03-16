@@ -44,10 +44,13 @@ import com.tencent.cos.xml.transfer.TransferManager;
 import com.tencent.cos.xml.transfer.TransferState;
 import com.tencent.cos.xml.transfer.TransferStateListener;
 import com.tencent.ocr.sdk.common.ISDKKitResultListener;
+import com.tencent.ocr.sdk.common.ISdkOcrEntityResultListener;
 import com.tencent.ocr.sdk.common.OcrModeType;
 import com.tencent.ocr.sdk.common.OcrSDKConfig;
 import com.tencent.ocr.sdk.common.OcrSDKKit;
 import com.tencent.ocr.sdk.common.OcrType;
+import com.tencent.ocr.sdk.entity.BankCardOcrResult;
+import com.tencent.ocr.sdk.entity.OcrProcessResult;
 import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
@@ -568,8 +571,8 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         // 启动参数配置
         OcrType ocrType = OcrType.BankCardOCR; // 设置默认的业务识别，银行卡
         OcrSDKConfig configBuilder = OcrSDKConfig.newBuilder(secretId, secretKey, null)
-                .OcrType(ocrType)
-                .ModeType(OcrModeType.OCR_DETECT_MANUAL)
+                .setOcrType(ocrType)
+                .setModeType(OcrModeType.OCR_DETECT_MANUAL)
                 .build();
         // 初始化SDK
         OcrSDKKit.getInstance().initWithConfig(this.getApplicationContext(), configBuilder);
@@ -580,7 +583,7 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
      * @param response
      * @param srcBase64Image
      */
-    public void getBank_information(String response, String srcBase64Image) {
+    public void getBank_information(BankCardOcrResult response, String srcBase64Image) {
         try {
             if (!srcBase64Image.isEmpty()) {
                 retBitmap1 = ImageConvertUtil.base64ToBitmap(srcBase64Image);
@@ -594,9 +597,8 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (!response.isEmpty()) {
-            final BankCardInfo bankCardInfo = new Gson().fromJson(response, BankCardInfo.class);
-            bNumber.setText(bankCardInfo.getCardNo());
+        if (!response.getCardNo().isEmpty()) {
+            bNumber.setText(response.getCardNo());
         }
     }
     @Override
@@ -631,19 +633,22 @@ public class HomeQuoteActivity3 extends BaseActivity implements View.OnClickList
                     popWindow.dismiss();
                 }
                 initSdk(getSecretId(), getSecretKey());
-                OcrSDKKit.getInstance().startProcessOcr(HomeQuoteActivity3.this, OcrType.BankCardOCR,
-                        CustomConfigUtil.getInstance().getCustomConfigUi(), new ISDKKitResultListener() {
+                OcrSDKKit.getInstance().startProcessOcrResultEntity(HomeQuoteActivity3.this, OcrType.BankCardOCR,
+                        CustomConfigUtil.getInstance().getCustomConfigUi(), BankCardOcrResult.class, new ISdkOcrEntityResultListener<BankCardOcrResult>() {
                             @Override
-                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
+                            public void onProcessSucceed(BankCardOcrResult bankCardOcrResult, OcrProcessResult ocrProcessResult) {
                                 //回显银行卡信息
-                                getBank_information(response, srcBase64Image);
+                                getBank_information(bankCardOcrResult, ocrProcessResult.imageBase64Str);
                             }
 
                             @Override
-                            public void onProcessFailed(String errorCode, String message, String requestId) {
+                            public void onProcessFailed(String errorCode, String message, OcrProcessResult ocrProcessResult) {
+
                                 popTip(errorCode, message);
-                                Log.e("requestId", requestId);
+                                Log.e("requestId", ocrProcessResult.toString());
                             }
+
+
                         });
             }
         });

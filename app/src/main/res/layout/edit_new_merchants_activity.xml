@@ -60,57 +60,6 @@
             android:background="@drawable/main_me_line_bg"
             android:orientation="vertical">
 
-
-
-            <RelativeLayout
-                android:id="@+id/feilv_relative"
-                android:layout_width="match_parent"
-                android:layout_height="57dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="15dp">
-
-                <TextView
-                    android:id="@+id/quote_ts1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="*"
-                    android:textColor="#F80C0C"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/quote_ts2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/quote_ts1"
-                    android:text="费率"
-                    android:textColor="#302F2F"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/feilv_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:drawableRight="@mipmap/quote_activity_select_iv"
-                    android:drawablePadding="11dp"
-                    android:gravity="center"
-                    android:hint="请选择费率"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
-
-
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="#F3F3F3" />
-
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

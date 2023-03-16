@@ -49,10 +49,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.barlibrary.ImmersionBar;
 import com.tencent.ocr.sdk.common.ISDKKitResultListener;
+import com.tencent.ocr.sdk.common.ISdkOcrEntityResultListener;
 import com.tencent.ocr.sdk.common.OcrModeType;
 import com.tencent.ocr.sdk.common.OcrSDKConfig;
 import com.tencent.ocr.sdk.common.OcrSDKKit;
 import com.tencent.ocr.sdk.common.OcrType;
+import com.tencent.ocr.sdk.entity.IdCardOcrResult;
+import com.tencent.ocr.sdk.entity.OcrProcessResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -175,13 +178,12 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
             case R.id.id_card_is:
                 initSdk(getSecretId(), getSecretKey());
                 //弹出界面
-                OcrSDKKit.getInstance().startProcessOcr(RealNameOnActivity.this, OcrType.IDCardOCR_FRONT, null,
-                        new ISDKKitResultListener() {
+                OcrSDKKit.getInstance().startProcessOcrResultEntity(RealNameOnActivity.this, OcrType.IDCardOCR_FRONT, null, IdCardOcrResult.class,
+                        new ISdkOcrEntityResultListener<IdCardOcrResult>() {
                             @Override
-                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
-                                IdCardInfo tempIdCardInfo = new Gson().fromJson(response, IdCardInfo.class);
-                                Log.e("response", tempIdCardInfo.getRequestId());
-                                Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
+                            public void onProcessSucceed(IdCardOcrResult idCardOcrResult, OcrProcessResult ocrProcessResult) {
+                                Log.e("response", idCardOcrResult.toString());
+                                Bitmap bitmap = ImageConvertUtil.base64ToBitmap(ocrProcessResult.imageBase64Str);
                                 try {
                                     if (bitmap != null)
                                         id_card_is.setImageBitmap(bitmap);
@@ -189,18 +191,20 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                IdName = tempIdCardInfo.getName();
-                                IdNumber = tempIdCardInfo.getIdNum();
+                                IdName = idCardOcrResult.getName();
+                                IdNumber = idCardOcrResult.getIdNum();
                                 setResultListData(1);
                             }
 
                             @Override
-                            public void onProcessFailed(String errorCode, String message, String requestId) {
+                            public void onProcessFailed(String errorCode, String message, OcrProcessResult ocrProcessResult) {
                                 popTip(errorCode, message);
-                                Log.e("requestId", requestId);
+                                Log.e("requestId", ocrProcessResult.toString());
                                 IdName = "";
                                 IdNumber = "";
                             }
+
+
                         });
 
                 break;
@@ -208,13 +212,12 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
             case R.id.id_card_the:
                 initSdk(getSecretId(), getSecretKey());
                 //身份证反面
-                OcrSDKKit.getInstance().startProcessOcr(RealNameOnActivity.this, OcrType.IDCardOCR_BACK, null,
-                        new ISDKKitResultListener() {
+                OcrSDKKit.getInstance().startProcessOcrResultEntity(RealNameOnActivity.this, OcrType.IDCardOCR_BACK, null,IdCardOcrResult.class,
+                        new ISdkOcrEntityResultListener<IdCardOcrResult>() {
                             @Override
-                            public void onProcessSucceed(String response, String srcBase64Image, String requestId) {
-                                IdCardInfo tempIdCardInfo = new Gson().fromJson(response, IdCardInfo.class);
-                                Log.e("response", tempIdCardInfo.getRequestId());
-                                Bitmap bitmap = ImageConvertUtil.base64ToBitmap(srcBase64Image);
+                            public void onProcessSucceed(IdCardOcrResult idCardOcrResult, OcrProcessResult ocrProcessResult) {
+                                Log.e("response", idCardOcrResult.toString());
+                                Bitmap bitmap = ImageConvertUtil.base64ToBitmap(ocrProcessResult.imageBase64Str);
                                 try {
                                     if (bitmap != null)
                                         id_card_the.setImageBitmap(bitmap);
@@ -222,16 +225,17 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                IdValidDate = tempIdCardInfo.getValidDate();
+                                IdValidDate = idCardOcrResult.getValidDate();
                                 setResultListData(2);
                             }
 
                             @Override
-                            public void onProcessFailed(String errorCode, String message, String requestId) {
+                            public void onProcessFailed(String errorCode, String message, OcrProcessResult ocrProcessResult) {
                                 popTip(errorCode, message);
-                                Log.e("11111requestId", requestId);
+                                Log.e("11111requestId", ocrProcessResult.toString());
                                 IdValidDate = "";
                             }
+
                         });
 
                 break;
@@ -291,8 +295,8 @@ public class RealNameOnActivity extends BaseActivity implements View.OnClickList
         // 启动参数配置
         OcrType ocrType = OcrType.BankCardOCR; // 设置默认的业务识别，银行卡
         OcrSDKConfig configBuilder = OcrSDKConfig.newBuilder(secretId, secretKey, null)
-                .OcrType(ocrType)
-                .ModeType(OcrModeType.OCR_DETECT_MANUAL)
+                .setOcrType(ocrType)
+                .setModeType(OcrModeType.OCR_DETECT_MANUAL)
                 .build();
         // 初始化SDK
         OcrSDKKit.getInstance().initWithConfig(this.getApplicationContext(), configBuilder);

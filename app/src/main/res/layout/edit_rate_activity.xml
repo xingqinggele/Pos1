@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F3F3F3"
+    >
+    <!--标题框-->
+    <RelativeLayout
+        android:id="@+id/relative_title"
+        android:background="@color/new_theme_color"
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+        <!--返回键-->
+        <LinearLayout
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:padding="5dp"
+                android:src="@mipmap/back_whilte_left" />
+
+        </LinearLayout>
+        <!--标题-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="费率修改"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/relative_title"
+        android:id="@+id/merchant_detail_line1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/main_me_line_bg"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/feilv_relative"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="15dp">
+
+            <TextView
+                android:id="@+id/quote_ts1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="*"
+                android:textColor="#F80C0C"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/quote_ts2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/quote_ts1"
+                android:text="费率"
+                android:textColor="#302F2F"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/feilv_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/quote_activity_select_iv"
+                android:drawablePadding="11dp"
+                android:gravity="center"
+                android:hint="请选择费率"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+    <Button
+        android:id="@+id/submit_bt"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/new_theme_color"
+        android:text="修改"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+</RelativeLayout>

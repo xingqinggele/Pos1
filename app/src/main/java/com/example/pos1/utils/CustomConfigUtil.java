@@ -49,7 +49,7 @@ public class CustomConfigUtil {
         int testColor = MyApp.getApp().getResources().getColor(R.color.pale_green);
         customConfigUi.setTitleColor(testColor);
         customConfigUi.setCardFrameColor(testColor);
-        customConfigUi.setRemindConfirmColor(testColor);
+//        customConfigUi.setRemindConfirmColor(testColor);
         customConfigUi.setSuccessRemindTextColor(testColor);
         // 更新可以自定义的图片样式
         customConfigUi.setLightImageResId(R.drawable.config_ocr_light_on, R.drawable.config_ocr_light_off);

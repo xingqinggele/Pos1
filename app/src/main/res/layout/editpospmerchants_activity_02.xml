@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:background="#F3F3F3"
     android:orientation="vertical">
     <!--顶部部分-->
@@ -30,6 +31,7 @@
                     android:padding="5dp"
                     android:src="@mipmap/back_whilte_left" />
 
+
             </LinearLayout>
             <!--标题-->
             <TextView
@@ -37,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="商户进件"
+                android:text="商户进件（2/3）"
                 android:textColor="#FFFFFF"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -55,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/quote_activity_iv1" />
+                android:src="@mipmap/quote_activity_iv2" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,7 +76,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="9dp"
                 android:text="身份认证"
-                android:textColor="#9CCEFF"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
             <TextView
@@ -94,11 +96,11 @@
 
     <!--内容部分-->
     <ScrollView
+        android:layout_above="@+id/submit_bt"
+        android:layout_below="@+id/top_view"
         android:id="@+id/scro_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/submit_bt"
-        android:layout_below="@+id/top_view"
         android:scrollbars="none">
 
         <RelativeLayout
@@ -133,21 +135,121 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
-                        android:text="申请人信息"
+                        android:text="证件信息"
                         android:textColor="#4C4C4C"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
 
-                <View
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="#F3F3F3" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/merchants_detail_tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="①上传身份证正面"
+                        android:textColor="#ff858585"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/merchants_detail_tv3"
+                        android:text="*"
+                        android:textColor="#F80C0C"
+                        android:textSize="12sp" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/id_card_is"
+                        android:layout_width="151dp"
+                        android:layout_height="103dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="18dp"
+                        android:scaleType="fitXY"
+                        fresco:placeholderImage="@mipmap/small_merchants_card1" />
+
+                </RelativeLayout>
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="25dp">
+
+                    <TextView
+                        android:id="@+id/merchants_detail_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="②上传身份证背面"
+                        android:textColor="#ff858585"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/merchants_detail_tv4"
+                        android:text="*"
+                        android:textColor="#F80C0C"
+                        android:textSize="12sp" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/id_card_the"
+                        android:layout_width="151dp"
+                        android:layout_height="103dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:scaleType="fitXY"
+                        fresco:placeholderImage="@mipmap/small_merchants_card2" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/merchants_detail_tv5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="③上传手持身份证照"
+                        android:textColor="#ff858585"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/merchants_detail_tv5"
+                        android:text="*"
+                        android:textColor="#F80C0C"
+                        android:textSize="12sp" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/id_card_pay"
+                        android:layout_width="151dp"
+                        android:layout_height="103dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:scaleType="fitXY"
+                        fresco:placeholderImage="@mipmap/small_merchants_card3" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
                     android:layout_marginLeft="12dp"
@@ -168,34 +270,33 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/quote_tv1"
-                        android:text="设备SN码 "
+                        android:text="姓名"
                         android:textColor="#302F2F"
                         android:textSize="12sp" />
 
                     <EditText
-                        android:id="@+id/quote_sn_num"
+                        android:id="@+id/name_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:layout_marginLeft="17dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@+id/quote_tv11"
                         android:background="@null"
                         android:gravity="center_vertical|right"
-                        android:hint="请输入设备SN码"
+                        android:hint="请输入法人姓名"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textColor="#000000"
                         android:textSize="12sp" />
 
                 </RelativeLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:background="#F3F3F3" />
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
@@ -203,7 +304,7 @@
                     android:layout_marginRight="15dp">
 
                     <TextView
-                        android:id="@+id/quote_tv3"
+                        android:id="@+id/quote_tv2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -212,35 +313,77 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/quote_tv33"
+                        android:id="@+id/quote_tv22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/quote_tv3"
-                        android:text="联系电话"
+                        android:layout_toRightOf="@+id/quote_tv2"
+                        android:text="证件号码"
                         android:textColor="#302F2F"
                         android:textSize="12sp" />
 
                     <EditText
-                        android:id="@+id/quote_phone"
+                        android:id="@+id/card_number_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@+id/quote_tv33"
+                        android:layout_toRightOf="@+id/quote_tv22"
                         android:background="@null"
                         android:gravity="center_vertical|right"
-                        android:hint="请输入申请人联系电话"
-                        android:maxLength="11"
+                        android:hint="请输入法人证件号码"
                         android:maxLines="1"
-                        android:numeric="integer"
                         android:singleLine="true"
                         android:textColor="#000000"
                         android:textSize="12sp" />
 
                 </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:background="#F3F3F3" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="15dp">
 
+                    <TextView
+                        android:id="@+id/quote_tv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="*"
+                        android:textColor="#F80C0C"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:text="证件有效开始日期"
+                        android:id="@+id/quote_tv44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/quote_tv4"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:textColor="#000000"
+                        android:id="@+id/home_quote_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="11dp"
+                        android:gravity="center"
+                        android:hint="请选择开始时间"
+                        android:textSize="12sp" />
+
+
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -249,7 +392,6 @@
                     android:background="#F3F3F3" />
 
                 <RelativeLayout
-                    android:id="@+id/province_relative"
                     android:layout_width="match_parent"
                     android:layout_height="57dp"
                     android:layout_marginLeft="12dp"
@@ -270,85 +412,27 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/quote_tv5"
-                        android:text="商户注册省市区"
+                        android:text="证件有效截止日期"
                         android:textColor="#302F2F"
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/province_tv"
+                        android:hint="请选择结束时间"
+                        android:id="@+id/home_quote_un_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:drawableRight="@mipmap/quote_activity_select_iv"
                         android:drawablePadding="11dp"
                         android:gravity="center"
-                        android:hint="请选择商户注册省市区"
                         android:textColor="#000000"
                         android:textSize="12sp" />
 
-
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="#F3F3F3" />
 
-                <RelativeLayout
-                    android:id="@+id/terminal_rate"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="15dp">
-
-                    <TextView
-                        android:id="@+id/quote_tv10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="*"
-                        android:textColor="#F80C0C"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/quote_tv10"
-                        android:text="终端费率"
-                        android:textColor="#302F2F"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/terminal_rate_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:drawableRight="@mipmap/quote_activity_select_iv"
-                        android:drawablePadding="11dp"
-                        android:gravity="center"
-                        android:hint="请选择终端费率"
-                        android:textColor="#000000"
-                        android:textSize="12sp" />
-
-
-                </RelativeLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/toast_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/merchant_detail_line1"
-                android:layout_marginLeft="10dp"
-                android:text="*您只能修改终端费率、银行卡选项！"
-                android:textColor="#F80C0C"
-                android:textSize="12sp"
-                android:visibility="gone" />
         </RelativeLayout>
 
     </ScrollView>

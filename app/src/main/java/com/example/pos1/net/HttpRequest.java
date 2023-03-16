@@ -1047,6 +1047,31 @@ public class HttpRequest {
         RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/update/merchant/info", params, token,callback, null);
     }
 
+
+     /**
+     * posp修改结算卡信息
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posUpdateSettleAccount(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/updateSettleAccount", params, token,callback, null);
+    }
+
+
+
+
+
+    /**
+     * posp修改费率
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posUpdateMerchantFee(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/updateMerchantFee", params, token,callback, null);
+    }
+
     /**
      * PosP报件上传
      *
@@ -1056,6 +1081,20 @@ public class HttpRequest {
     public static void getPosPOperation(RequestParams params, String token,ResponseCallback callback) {
         RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/add/merchant/info", params,token,callback, null);
     }
+
+
+     /**
+     * PosP报件上传
+     *
+     * @param params
+     * @param callback
+     */
+    public static void getPosPEdit(RequestParams params, String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/updateAll/merchant/info", params,token,callback, null);
+    }
+
+
+
 
     /**
      * 获取新商户列表
@@ -1135,5 +1174,15 @@ public class HttpRequest {
      */
     public static void posVideoUpload(RequestParams params,String token,ResponseCallback callback) {
         RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/videoUpload", params, token,callback, null);
+    }
+
+    /**
+     * 新版报件Sn是否存在
+     *
+     * @param params
+     * @param callback
+     */
+    public static void posMerchantInfoRecord(RequestParams params,String token,ResponseCallback callback) {
+        RequestMode.postRequest(Urls.commUrls + "pos/merchantInfo/getMerchantInfoRecord", params, token,callback, null);
     }
 }

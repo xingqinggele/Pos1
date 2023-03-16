@@ -380,7 +380,8 @@
         <activity
             android:name=".homefragment.homeInvitepartners.HomeFillActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-        <activity android:name=".homefragment.homelibao.LiBaoActivity" />
+        <activity android:name=".homefragment.homelibao.LiBaoActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation"/>
         <!--我的费率-->
         <activity
             android:name=".mefragment.mefeilv.MeFeilvActivity"
@@ -445,6 +446,12 @@
         <activity
             android:name=".newprojectview.VideoNuclearActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
+        <activity android:name=".newprojectview.editMerchats.EditPosPMerchantsActivity1"
+            android:configChanges="screenSize|keyboardHidden|orientation"/>
+        <activity android:name=".newprojectview.editMerchats.EditPosPMerchantsActivity2"
+            android:configChanges="screenSize|keyboardHidden|orientation"/>
+        <activity android:name=".newprojectview.editMerchats.EditPosPMerchantsActivity3" />
+        <activity android:name=".newprojectview.editMerchats.EditRateActivity" />
     </application>
 
 

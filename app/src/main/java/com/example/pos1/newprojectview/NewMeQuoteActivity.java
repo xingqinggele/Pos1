@@ -20,6 +20,7 @@ import com.example.pos1.R;
 import com.example.pos1.base.BaseActivity;
 import com.example.pos1.homefragment.homemerchants.memerchants.activity.MeMerchantsDetailActivity;
 import com.example.pos1.homefragment.homequoteactivity.HomeQuoteActivity1;
+import com.example.pos1.mefragment.setup.SetUpActivity;
 import com.example.pos1.net.HttpRequest;
 import com.example.pos1.net.OkHttpException;
 import com.example.pos1.net.RequestParams;
@@ -30,7 +31,11 @@ import com.example.pos1.newprojectview.adapter.QuoteAdapter;
 import com.example.pos1.newprojectview.bean.NewMeQuoBean;
 import com.example.pos1.newprojectview.bean.QuoteBean;
 import com.example.pos1.newprojectview.editMerchats.EditNewMerchantsActivity;
+import com.example.pos1.newprojectview.editMerchats.EditPosPMerchantsActivity1;
+import com.example.pos1.newprojectview.editMerchats.EditRateActivity;
+import com.example.pos1.utils.DataCleanManager;
 import com.example.pos1.views.MyDialog;
+import com.example.pos1.views.MyDialog1;
 import com.example.pos1.views.MyGridView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,7 +52,7 @@ import java.util.List;
  * 创建日期：2022/8/22
  * 描述:新商户列表
  */
-public class NewMeQuoteActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, QuoteAdapter.BindCallback, QuoteAdapter.EditCallback {
+public class NewMeQuoteActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, QuoteAdapter.BindCallback, QuoteAdapter.EditCallback, QuoteAdapter.EditRateCallback, QuoteAdapter.FallDialog {
     //返回键
     private LinearLayout iv_back;
     private EditText me_merchants_person_ed_search;
@@ -128,7 +133,7 @@ public class NewMeQuoteActivity extends BaseActivity implements View.OnClickList
         //上拉刷新初始化
         swipe_layout.setOnRefreshListener(this);
         //adapter配置data
-        quoteAdapter = new QuoteAdapter(R.layout.item_new_merchats, mData, this, this);
+        quoteAdapter = new QuoteAdapter(R.layout.item_new_merchats, mData, this, this,this,this);
         //打开加载动画
         quoteAdapter.openLoadAnimation();
         //设置启用加载更多
@@ -300,26 +305,64 @@ public class NewMeQuoteActivity extends BaseActivity implements View.OnClickList
      * 点击修改
      *
      * @param id
-     * @param type
+     * @param isAudit
      */
     @Override
-    public void edit(String id, String type, String isSta) {
-        if (type.equals("1")) {
-            startActivity(new Intent(this, AddMerchantsActivity1.class));
-        } else {
-            Intent intent;
-            if (isSta.equals("1")) {
-                intent = new Intent(this, HomeQuoteActivity1.class);
-                intent.putExtra("id", id);
-                intent.putExtra("type", "2");
-                intent.putExtra("bj_type", type);
-            } else {
-                intent = new Intent(this, EditNewMerchantsActivity.class);
-                intent.putExtra("sid", id);
-            }
-            startActivity(intent);
+//    public void edit(String id, String type, String isSta) {
+    public void edit(String id, String isAudit, String isType) {
+        Intent intent;
+        //判定报件 1支付通 非 posp
+        if (isType.equals("1")){
+            intent = new Intent(this, HomeQuoteActivity1.class);
+            intent.putExtra("id", id);
+            intent.putExtra("type", "2");
+            intent.putExtra("bj_type", isAudit);
+        }else {
 
+            if (isAudit.equals("1")){
+                intent = new Intent(this, EditPosPMerchantsActivity1.class);
+            }else {
+                intent = new Intent(this, EditNewMerchantsActivity.class);
+            }
+            intent.putExtra("sid", id);
         }
 
+        startActivity(intent);
+
+    }
+
+
+    /**
+     * 修改费率
+     * @param id
+     */
+    @Override
+    public void edit(String id) {
+        Intent intent = new Intent(this, EditRateActivity.class);
+        intent.putExtra("id",id);
+        startActivity(intent);
+    }
+
+    /**
+     * 失败原因他弹框
+     * @param content
+     */
+    @Override
+    public void dialog(String content) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.new_me_quote_dialog_content, null);
+            TextView textView = view.findViewById(R.id.dialog_tv1);
+            TextView dialog_determine = view.findViewById(R.id.dialog_determine);
+            textView.setText(content);
+            Dialog dialog = new MyDialog1(NewMeQuoteActivity.this, true, true, (float) 0.7).setNewView(view);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            dialog_determine.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //提交
+                    dialog.dismiss();
+
+                }
+            });
     }
 }

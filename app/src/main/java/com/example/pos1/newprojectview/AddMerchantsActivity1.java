@@ -108,7 +108,7 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
     //返回键
     private LinearLayout iv_back;
     //需要关闭
-    public static com.example.pos1.newprojectview.AddMerchantsActivity1 instance = null;
+    public static AddMerchantsActivity1 instance = null;
     private List<NewRateBean> rateBeans = new ArrayList<>();
     //类型适配器Adapter
     private NewMerchantsGridViewAdapter madapter;
@@ -128,6 +128,7 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
     private String provinceName;  // 省名称
     private String cityName;  // 市名称
     private String areaName;  // 区名称
+
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -139,12 +140,12 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
     protected void initView() {
         instance = this;
         context = this;
-        if (isLocServiceEnable(this)){
+        if (isLocServiceEnable(this)) {
             //初始化定位
             initLocation();
             //开启定位
             startLocation();
-        }else {
+        } else {
             isDialog("请您设置位置权限在进行报件！");
         }
         iv_back = findViewById(R.id.iv_back);
@@ -181,6 +182,7 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
         }
 
     }
+
     /**
      * 初始化定位
      */
@@ -260,13 +262,13 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
                     sb.append("错误信息:" + location.getErrorInfo() + "\n");
                     sb.append("错误描述:" + location.getLocationDetail() + "\n");
                     loctionEorr = sb.toString();
-                    shouLog("---》",sb.toString());
+                    shouLog("---》", sb.toString());
 
                 }
                 //停止定位
                 stopLocation();
-            }else {
-                shouLog("---》","失败了");
+            } else {
+                shouLog("---》", "失败了");
             }
         }
     };
@@ -341,7 +343,6 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
                 showCityPicker();
                 break;
             case R.id.submit_bt:
-                Intent intent = new Intent(com.example.pos1.newprojectview.AddMerchantsActivity1.this, AddMerchantsActivity2.class);
                 if (TextUtils.isEmpty(quote_posCode.getText().toString().trim())) {
                     showToast(3, "请输入SN");
                     return;
@@ -368,26 +369,11 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
                     showToast(3, "详细地址");
                     return;
                 }
-                if (Longitude.equals("") && Longitude == ""){
+                if (Longitude.equals("") && Longitude == "") {
                     showToast(3, loctionEorr);
                     return;
                 }
-                intent.putExtra("quote_contact_name", quote_contact_name.getText().toString().trim());
-                intent.putExtra("quote_shop_jname", quote_contact_name.getText().toString().trim());
-                intent.putExtra("PosCode", quote_posCode.getText().toString().trim());
-                intent.putExtra("rateId", rateId);
-                intent.putExtra("quote_phone", quote_phone.getText().toString().trim());
-                intent.putExtra("quote_service_phone", quote_phone.getText().toString().trim());
-                intent.putExtra("quote_address", quote_address.getText().toString().trim());
-                intent.putExtra("province", province);
-                intent.putExtra("city", city);
-                intent.putExtra("area", area);
-                intent.putExtra("Longitude", Longitude);
-                intent.putExtra("Latitude", Latitude);
-                intent.putExtra("provinceName", provinceName);
-                intent.putExtra("cityName", cityName);
-                intent.putExtra("areaName", areaName);
-                startActivity(intent);
+                getMerchantInfoRecord(quote_posCode.getText().toString().trim());
                 break;
             case R.id.feilv_relative:
                 showDialog(rateBeans);
@@ -398,7 +384,7 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
     //获取费率
     private void posRate() {
         RequestParams params = new RequestParams();
-        HttpRequest.posEchoFeeId(params,getToken(), new ResponseCallback() {
+        HttpRequest.posEchoFeeId(params, getToken(), new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
                 Gson gson = new GsonBuilder().serializeNulls().create();
@@ -453,16 +439,18 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
 
     /**
      * 如果没有权限、弹框
+     *
      * @param title
      */
-    private void isDialog(String title){
+    private void isDialog(String title) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.is_dialog_layout, null);
         TextView textView = view.findViewById(R.id.dialog_tv1);
         TextView dialog_determine = view.findViewById(R.id.dialog_determine);
         textView.setText(title);
         Dialog dialog = new MyDialog1(AddMerchantsActivity1.this, true, true, (float) 0.7).setNewView(view);
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);;
+        dialog.setCancelable(false);
+        ;
         dialog.show();
         dialog_determine.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -473,6 +461,7 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
             }
         });
     }
+
     /************************************** 获取省市区功能开始--（代码太繁琐后期要优化）--****************************************/
     private Handler mHandler = new Handler(new Handler.Callback() {
         public boolean handleMessage(Message msg) {
@@ -791,7 +780,7 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
         RequestParams params = new RequestParams();
         params.put("areaLevel", "3");
         params.put("parentCode", code);
-        HttpRequest.getArea(params,getToken(), new ResponseCallback() {
+        HttpRequest.getArea(params, getToken(), new ResponseCallback() {
             @Override
             public void onSuccess(Object responseObj) {
                 //需要转化为实体对象
@@ -815,4 +804,60 @@ public class AddMerchantsActivity1 extends BaseActivity implements View.OnClickL
         });
     }
     /***************************************** 获取省市区功能结束 --（代码太繁琐后期要优化）***************************************************************/
+
+    /**
+     * 判断sn是否存在
+     *
+     * @param snCode
+     */
+    private void getMerchantInfoRecord(String snCode) {
+        RequestParams params = new RequestParams();
+        params.put("posCode", snCode);
+        HttpRequest.posMerchantInfoRecord(params, getToken(), new ResponseCallback() {
+            @Override
+            public void onSuccess(Object responseObj) {
+                onSuccTest(responseObj);
+            }
+
+            @Override
+            public void onFailure(OkHttpException failuer) {
+                Failuer(failuer.getEcode(), failuer.getEmsg());
+            }
+        });
+    }
+
+    /**
+     * 接口返回处理
+     *
+     * @param responseObj
+     */
+    private void onSuccTest(Object responseObj) {
+        Intent intent = new Intent(AddMerchantsActivity1.this, AddMerchantsActivity2.class);
+        try {
+            JSONObject result = new JSONObject(responseObj.toString());
+            if (result.getString("data").equals("1")) {
+                showToast(3, "此SN已占用");
+            } else {
+                intent.putExtra("quote_contact_name", quote_contact_name.getText().toString().trim());
+                intent.putExtra("quote_shop_jname", quote_contact_name.getText().toString().trim());
+                intent.putExtra("PosCode", quote_posCode.getText().toString().trim());
+                intent.putExtra("rateId", rateId);
+                intent.putExtra("quote_phone", quote_phone.getText().toString().trim());
+                intent.putExtra("quote_service_phone", quote_phone.getText().toString().trim());
+                intent.putExtra("quote_address", quote_address.getText().toString().trim());
+                intent.putExtra("province", province);
+                intent.putExtra("city", city);
+                intent.putExtra("area", area);
+                intent.putExtra("Longitude", Longitude);
+                intent.putExtra("Latitude", Latitude);
+                intent.putExtra("provinceName", provinceName);
+                intent.putExtra("cityName", cityName);
+                intent.putExtra("areaName", areaName);
+                startActivity(intent);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
