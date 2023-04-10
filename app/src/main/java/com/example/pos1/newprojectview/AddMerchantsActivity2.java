@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,6 +23,9 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.pos1.R;
 import com.example.pos1.base.BaseActivity;
 import com.example.pos1.bean.IdCardInfo;
+import com.example.pos1.newprojectview.bean.EditPosPBean;
+import com.example.pos1.newprojectview.editMerchats.EditPosPMerchantsActivity3;
+import com.example.pos1.newprojectview.model.UploadImageView;
 import com.example.pos1.utils.ImageConvertUtil;
 import com.example.pos1.utils.TimeUtils;
 import com.example.pos1.utils.Utility;
@@ -40,6 +44,7 @@ import com.wildma.pictureselector.PictureSelector;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -54,19 +59,9 @@ import top.zibin.luban.OnRenameListener;
  * 创建日期：2021/8/17
  * 描述: posP商户报件2
  */
-public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickListener {
-    /************第一页传递的参数************/
-    private String quote_contact_name = ""; //联系人
-    private String quote_shop_jname = ""; //商户简写
-    private String quote_phone = ""; //联系电话
-    private String rateId = ""; //费率ID
-    private String PosCode = ""; //SN
-    private String quote_service_phone = ""; //客服电话
-    private String quote_address = ""; //详细地址
-    private String province = ""; //商户注册省份
-    private String city = ""; //商户注册城市
-    private String area = ""; //商户注册区县
-    /************第一页传递的参数************/
+public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickListener, UploadImageView.onResultListener {
+    //用户输入实体
+    private EditPosPBean editBean = new EditPosPBean();
     //返回键
     private LinearLayout iv_back;
     // 身份证正面
@@ -75,12 +70,6 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
     private SimpleDraweeView id_card_the;
     //手持身份证照片
     private SimpleDraweeView id_card_pay;
-    //身份证正面照片地址
-    private String IdCard1_Url = "";
-    //身份证反面照片地址
-    private String IdCard2_Url = "";
-    //手持身份证照片地址
-    private String Handheld_url = "";
     // 身份证名字
     private String IdName;
     // 身份证号码
@@ -103,21 +92,18 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
     private TextView home_quote_un_time;
     //下一步按钮
     private Button submit_bt;
-
     // 需要关闭
     public static AddMerchantsActivity2 instance = null;
-
     final private int IdCardIn = 1004;
     final private int IdCardOn = 1005;
+    final private int IdCardPay = 1006;
     private PopupWindow popWindow;
     private View popView;
-
-
-    private String Longitude = "";
-    private String Latitude = "";
-    private String provinceName;  // 省名称
-    private String cityName;  // 市名称
-    private String areaName;  // 区名称
+    //图片上传
+    private UploadImageView uploadImageView;
+    private String url1; // 身份证正面上传地址
+    private String url2;// 身份证反面上传地址
+    private String url3;// 身份证上传地址
     @Override
     protected int getLayoutId() {
         //设置状态栏颜色
@@ -128,6 +114,7 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
     @Override
     protected void initView() {
         instance = this;
+        uploadImageView = new UploadImageView(this, getSecretId(), getSecretKey(), getBucketName(), this);
         iv_back = findViewById(R.id.iv_back);
         id_card_is = findViewById(R.id.id_card_is);
         name_ed = findViewById(R.id.name_ed);
@@ -152,21 +139,7 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-        quote_contact_name = getIntent().getStringExtra("quote_contact_name");
-        quote_shop_jname = getIntent().getStringExtra("quote_shop_jname");
-        quote_phone = getIntent().getStringExtra("quote_phone");
-        rateId = getIntent().getStringExtra("rateId");
-        PosCode = getIntent().getStringExtra("PosCode");
-        quote_service_phone = getIntent().getStringExtra("quote_service_phone");
-        quote_address = getIntent().getStringExtra("quote_address");
-        province = getIntent().getStringExtra("province");
-        city = getIntent().getStringExtra("city");
-        area = getIntent().getStringExtra("area");
-        Longitude = getIntent().getStringExtra("Longitude");
-        Latitude = getIntent().getStringExtra("Latitude");
-        provinceName = getIntent().getStringExtra("provinceName");
-        cityName = getIntent().getStringExtra("cityName");
-        areaName = getIntent().getStringExtra("areaName");
+        editBean = (EditPosPBean) getIntent().getSerializableExtra("editBean");
     }
 
     @Override
@@ -196,16 +169,15 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
                         .selectPicture(false);
                 break;
             case R.id.submit_bt:
-                Intent intent = new Intent(this, AddMerchantsActivity3.class);
-                if (TextUtils.isEmpty(IdCard1_Url)) {
+                if (TextUtils.isEmpty(url1)) {
                     showToast(3, "选择身份证正面照");
                     return;
                 }
-                if (TextUtils.isEmpty(IdCard2_Url)) {
+                if (TextUtils.isEmpty(url2)) {
                     showToast(3, "选择身份证背面照");
                     return;
                 }
-                if (TextUtils.isEmpty(Handheld_url)) {
+                if (TextUtils.isEmpty(url3)) {
                     showToast(3, "选择手持身份证照");
                     return;
                 }
@@ -225,30 +197,17 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
                     showToast(3, "有效期结束时间");
                     return;
                 }
-                /*****第一页数据******************/
-                intent.putExtra("quote_contact_name", quote_contact_name);
-                intent.putExtra("quote_shop_jname", quote_shop_jname);
-                intent.putExtra("quote_service_phone", quote_service_phone);
-                intent.putExtra("rateId", rateId);
-                intent.putExtra("PosCode", PosCode);
-                intent.putExtra("quote_address", quote_address);
-                intent.putExtra("quote_phone", quote_phone);
-                intent.putExtra("province", province);
-                intent.putExtra("city", city);
-                intent.putExtra("area", area);
-                intent.putExtra("Longitude", Longitude);
-                intent.putExtra("Latitude", Latitude);
-                intent.putExtra("provinceName", provinceName);
-                intent.putExtra("cityName", cityName);
-                intent.putExtra("areaName", areaName);
-                /*****第一页数据******************/
-                intent.putExtra("IdUrl1", IdCard1_Url);
-                intent.putExtra("IdUrl2", IdCard2_Url);
-                intent.putExtra("IdUrl3", Handheld_url);
-                intent.putExtra("fName", name_ed.getText().toString().trim());
-                intent.putExtra("fNumber", card_number_ed.getText().toString().trim());
-                intent.putExtra("startTime", s);
-                intent.putExtra("endTime", t);
+                Intent intent = new Intent(this, AddMerchantsActivity3.class);
+                editBean.setCertificatesFrontPic(url1);
+                editBean.setCertificatesBackPic(url2);
+                editBean.setIdcardHandPic(url3);
+                editBean.setLegalPersonName(name_ed.getText().toString().trim());
+                editBean.setCertificateNo(card_number_ed.getText().toString().trim());
+                editBean.setCertificateStartDate(s);
+                editBean.setCertificateEndDate(t);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("editBean", (Serializable) editBean);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
         }
@@ -379,9 +338,9 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
 
                             @Override
                             public void onSuccess(File file) {
-                                Handheld_url = file.getPath();
-                                id_card_pay.setImageBitmap(BitmapFactory.decodeFile(Handheld_url));
-                                shouLog("图片--->",Handheld_url);
+                                id_card_pay.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+                                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                                uploadImageView.upload(IdCardPay, file.getPath(), folderName);
                             }
 
                             @Override
@@ -419,8 +378,9 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
 
                             @Override
                             public void onSuccess(File file) {
-                                IdCard1_Url = file.getPath();
-                                id_card_is.setImageBitmap(BitmapFactory.decodeFile(IdCard1_Url));
+                                id_card_is.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+                                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                                uploadImageView.upload(IdCardIn, file.getPath(), folderName);
                             }
 
                             @Override
@@ -450,8 +410,9 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
 
                             @Override
                             public void onSuccess(File file) {
-                                IdCard2_Url = file.getPath();
-                                id_card_the.setImageBitmap(BitmapFactory.decodeFile(IdCard2_Url));
+                                id_card_the.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+                                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                                uploadImageView.upload(IdCardOn, file.getPath(), folderName);
                             }
 
                             @Override
@@ -477,9 +438,12 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
                         Log.e("response", idCardOcrResult.toString());
                         Bitmap bitmap = ImageConvertUtil.base64ToBitmap(ocrProcessResult.imageBase64Str);
                         try {
-                            if (bitmap != null)
+                            if (bitmap != null){
                                 id_card_is.setImageBitmap(bitmap);
-                            IdCard1_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
+                                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                                uploadImageView.upload(IdCardIn, ImageConvertUtil.getFile(bitmap).getCanonicalPath(), folderName);
+                            }
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -510,9 +474,11 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
                         Log.e("response", idCardOcrResult.toString());
                         Bitmap bitmap = ImageConvertUtil.base64ToBitmap(ocrProcessResult.imageBase64Str);
                         try {
-                            if (bitmap != null)
+                            if (bitmap != null){
                                 id_card_the.setImageBitmap(bitmap);
-                            IdCard2_Url = ImageConvertUtil.getFile(bitmap).getCanonicalPath();
+                                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                                uploadImageView.upload(IdCardOn, ImageConvertUtil.getFile(bitmap).getCanonicalPath(), folderName);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -552,5 +518,24 @@ public class AddMerchantsActivity2 extends BaseActivity implements View.OnClickL
                 .setLabel("年", "月", "日", "时", "分", "秒")
                 .build();
         pvTime.show();
+    }
+    /**
+     * 存储图片
+     *
+     * @param type 图片类型
+     * @param url  地址
+     */
+    @Override
+    public void onResult(int type, String url) {
+        if (type == IdCardIn) {
+            url1 = url;
+            shouLog("身份证正面--->", url);
+        } else if (type == IdCardOn) {
+            url2 = url;
+            shouLog("身份证反面--->", url);
+        } else if (type == IdCardPay) {
+            shouLog("身份证手持--->", url);
+            url3 = url;
+        }
     }
 }

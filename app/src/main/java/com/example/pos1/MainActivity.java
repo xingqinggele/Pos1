@@ -66,7 +66,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             Manifest.permission.ACCESS_NOTIFICATION_POLICY,
             //定位
             Manifest.permission.ACCESS_FINE_LOCATION
-
     };
 
     //xml界面

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.pos1.cos.CosServiceFactory;
+import com.example.pos1.views.LoadingDialog;
 import com.tencent.cos.xml.CosXmlService;
 import com.tencent.cos.xml.exception.CosXmlClientException;
 import com.tencent.cos.xml.exception.CosXmlServiceException;
@@ -36,6 +37,7 @@ public class UploadImageView {
     private Context mContext;
     private String BucketName;
     private onResultListener onResultListener;
+    protected LoadingDialog loadDialog;//加载等待弹窗
 
 
     public UploadImageView(Context context, String secretId, String secretKey, String BucketName,onResultListener listener) {
@@ -46,6 +48,7 @@ public class UploadImageView {
         cosXmlService = CosServiceFactory.getCosXmlService(context, region, secretId, secretKey, true);
         TransferConfig transferConfig = new TransferConfig.Builder().build();
         transferManager = new TransferManager(cosXmlService, transferConfig);
+        loadDialog = new LoadingDialog(mContext);
     }
 
 
@@ -59,6 +62,8 @@ public class UploadImageView {
         if (TextUtils.isEmpty(fileUrl)) {
             return;
         }
+        loadDialog.setTitleStr("上传中...");
+        loadDialog.show();
         if (cosxmlTask == null) {
             File file = new File(fileUrl);
             String cosPath;
@@ -85,6 +90,7 @@ public class UploadImageView {
             cosxmlTask.setCosXmlResultListener(new CosXmlResultListener() {
                 @Override
                 public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                    loadDialog.dismiss();
                     COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult = (COSXMLUploadTask.COSXMLUploadTaskResult) result;
                     cosxmlTask = null;
                     Log.e("1111", "成功");
@@ -93,6 +99,7 @@ public class UploadImageView {
 
                 @Override
                 public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
+                    loadDialog.dismiss();
                     if (cosxmlTask.getTaskState() != TransferState.PAUSED) {
                         cosxmlTask = null;
                         Toast.makeText(mContext, "图片上传失败！请重新选择图片", Toast.LENGTH_LONG).show();

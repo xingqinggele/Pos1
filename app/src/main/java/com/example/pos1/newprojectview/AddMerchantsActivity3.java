@@ -33,9 +33,11 @@ import com.example.pos1.net.ResponseCallback;
 import com.example.pos1.newprojectview.adapter.BankNameAdapter;
 import com.example.pos1.newprojectview.adapter.ZhiBankNameAdapter;
 import com.example.pos1.newprojectview.bean.BankNameBean;
+import com.example.pos1.newprojectview.bean.EditPosPBean;
 import com.example.pos1.newprojectview.bean.NewCityBean;
 import com.example.pos1.newprojectview.bean.NewProvinceBean;
 import com.example.pos1.newprojectview.model.ProvinceView;
+import com.example.pos1.newprojectview.model.UploadImageView;
 import com.example.pos1.utils.CustomConfigUtil;
 import com.example.pos1.utils.ImageConvertUtil;
 import com.example.pos1.utils.TimeUtils;
@@ -86,17 +88,13 @@ import top.zibin.luban.OnCompressListener;
  * 创建日期：2021/8/17
  * 描述: posP商户报件3
  */
-public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener, UploadImageView.onResultListener {
+    private EditPosPBean editBean = new EditPosPBean();
     private LinearLayout iv_back;
     // 需要关闭
     public static AddMerchantsActivity3 instance = null;
     //银行卡正面
     private SimpleDraweeView id_card_is;
-    //银行卡正面图片
-    private Bitmap retBitmap1;
-    //银行卡正面图片地址
-    private String bUrl1 = "";
-    private String url4 = "";
     //银行卡号
     private EditText bNumber;
     //提交数据按钮
@@ -117,21 +115,10 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
     private String BankCity = "";
     //开户网点
     private EditText bankSite_tv;
-    /************* 存储桶 ****************/
 
-    //存储桶地区
-    private String region = "ap-beijing";
-    private String folderName = "";
-    private String author = "Android";
-    private CosXmlService cosXmlService;
-    private TransferManager transferManager;
-    private COSXMLUploadTask cosxmlTask;
-    private int BankCardIn = 1006;
-
-    /************* 存储桶 ****************/
+    private Bitmap retBitmap1;
 
     /************* 弹框  ****************/
-
     private PopupWindow popWindow;
     private View popView;
     private RelativeLayout province_relative;
@@ -144,42 +131,14 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
     private List<BankNameBean> zhiBankList = new ArrayList<>();
     private BankNameAdapter bankNameAdapter;
     private ZhiBankNameAdapter zhiBankNameAdapter;
-
     /************* 弹框  ****************/
 
-
-    /**************  接受数据  ****************/
-    private String applicant;
-    private String contactPhoneNo;
-    private String clientServicePhoneNo;
-    private String merchantShortHand;
-    private String rateId;
-    private String PosCode;
-    private String provinceNo;
-    private String cityNo;
-    private String areaNo;
-    private String address;
-    private String certificateEndDate;
-    private String certificateStartDate;
-    private String certificateNo;
-    private String certificatesBackPic;
-    private String url1;
-    private String url2;
-    private String url3;
-    private String certificatesFrontPic;
-    private String idcardHandPic;
-    private String legalPersonName;
-
-    /**************  接受数据  ****************/
     private boolean isBank = true;
     private boolean isBankSite = true;
-    //经度
-    private String Longitude = "";
-    //维度
-    private String Latitude = "";
-    private String provinceName;  // 省名称
-    private String cityName;  // 市名称
-    private String areaName;  // 区名称
+
+    private UploadImageView uploadImageView;
+    private String bUrl = "";
+    private int BankCardIn = 1007;
 
     @Override
     protected int getLayoutId() {
@@ -192,10 +151,7 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
     @Override
     protected void initView() {
         instance = this;
-        // 初始化腾讯存储桶
-        cosXmlService = CosServiceFactory.getCosXmlService(this, region, getSecretId(), getSecretKey(), true);
-        TransferConfig transferConfig = new TransferConfig.Builder().build();
-        transferManager = new TransferManager(cosXmlService, transferConfig);
+        uploadImageView = new UploadImageView(this, getSecretId(), getSecretKey(), getBucketName(), this);
         //初始化选择省市区
         provinceView = new ProvinceView(this, AddMerchantsActivity3.this);
         id_card_is = findViewById(R.id.id_card_is);
@@ -229,29 +185,7 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
-        applicant = getIntent().getStringExtra("quote_contact_name");
-        merchantShortHand = getIntent().getStringExtra("quote_shop_jname");
-        contactPhoneNo = getIntent().getStringExtra("quote_service_phone");
-        rateId = getIntent().getStringExtra("rateId");
-        PosCode = getIntent().getStringExtra("PosCode");
-        address = getIntent().getStringExtra("quote_address");
-        clientServicePhoneNo = getIntent().getStringExtra("quote_phone");
-        provinceNo = getIntent().getStringExtra("province");
-        cityNo = getIntent().getStringExtra("city");
-        areaNo = getIntent().getStringExtra("area");
-        url1 = getIntent().getStringExtra("IdUrl1");
-        url2 = getIntent().getStringExtra("IdUrl2");
-        url3 = getIntent().getStringExtra("IdUrl3");
-        legalPersonName = getIntent().getStringExtra("fName");
-        certificateNo = getIntent().getStringExtra("fNumber");
-        certificateStartDate = getIntent().getStringExtra("startTime");
-        certificateEndDate = getIntent().getStringExtra("endTime");
-
-        Longitude = getIntent().getStringExtra("Longitude");
-        Latitude = getIntent().getStringExtra("Latitude");
-        provinceName = getIntent().getStringExtra("provinceName");
-        cityName = getIntent().getStringExtra("cityName");
-        areaName = getIntent().getStringExtra("areaName");
+        editBean = (EditPosPBean) getIntent().getSerializableExtra("editBean");
     }
 
     @Override
@@ -259,16 +193,10 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
         switch (view.getId()) {
             case R.id.id_card_is:
                 showEditPhotoWindow(BankCardIn);
-
-                break;
-            case R.id.id_card_the:
-                PictureSelector
-                        .create(AddMerchantsActivity3.this, PictureSelector.SELECT_REQUEST_CODE)
-                        .selectPicture(false);
                 break;
             case R.id.submit_bt:
-                if (TextUtils.isEmpty(url4)) {
-                    showToast(3, "银行卡正面照片");
+                if (TextUtils.isEmpty(bUrl)) {
+                    showToast(3, "请上传银行卡正面照片");
                     return;
                 }
                 if (TextUtils.isEmpty(bNumber.getText().toString().trim())) {
@@ -295,40 +223,11 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
                     showToast(3, "请选择正确银行编码");
                     return;
                 }
-
                 if (TextUtils.isEmpty(bankSite)) {
                     showToast(3, "请选择正确开户支行网点");
                     return;
                 }
-
-                loadDialog.show();
-                folderName = "baojian" + "/" + author + "/" + certificateNo + "/" + TimeUtils.getNowTime("day");
-                List<SmallinformationBean> beans = new ArrayList<>();
-                // 需要存储的
-                SmallinformationBean bean1 = new SmallinformationBean();
-                bean1.setName("1");
-                bean1.setUrl(url1);
-                beans.add(bean1);
-                SmallinformationBean bean2 = new SmallinformationBean();
-                bean2.setName("2");
-                bean2.setUrl(url2);
-                beans.add(bean2);
-                SmallinformationBean bean3 = new SmallinformationBean();
-                bean3.setName("3");
-                bean3.setUrl(url3);
-                beans.add(bean3);
-                SmallinformationBean bean4 = new SmallinformationBean();
-                bean4.setName("4");
-                bean4.setUrl(url4);
-                beans.add(bean4);
-                if (beans.size() < 1) {
-                    posData();
-                } else {
-                    Log.e("------》", "需要上传图片");
-                    for (int i = 0; i < beans.size(); i++) {
-                        upload(beans, folderName);
-                    }
-                }
+                posData();
                 break;
             case R.id.iv_back:
                 finish();
@@ -342,122 +241,44 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
 
 
     /**
-     * 上传图片,对象存储
-     */
-    private void upload(List<SmallinformationBean> list, String newfolderName) {
-        int i = 0;
-        if (TextUtils.isEmpty(list.get(i).getUrl())) {
-            list.remove(i);
-            return;
-        }
-        if (cosxmlTask == null) {
-            File file = new File(list.get(i).getUrl());
-            String cosPath;
-            if (TextUtils.isEmpty(newfolderName)) {
-                cosPath = file.getName();
-            } else {
-                cosPath = newfolderName + File.separator + file.getName();
-            }
-            cosxmlTask = transferManager.upload(getBucketName(), cosPath, list.get(i).getUrl(), null);
-            Log.e("参数-------》", getBucketName() + "----" + cosPath + "---" + list.get(i).getUrl());
-
-            cosxmlTask.setTransferStateListener(new TransferStateListener() {
-                @Override
-                public void onStateChanged(final TransferState state) {
-                    // refreshUploadState(state);
-                }
-            });
-            cosxmlTask.setCosXmlProgressListener(new CosXmlProgressListener() {
-                @Override
-                public void onProgress(final long complete, final long target) {
-                    // refreshUploadProgress(complete, target);
-                }
-            });
-            cosxmlTask.setCosXmlResultListener(new CosXmlResultListener() {
-                @Override
-                public void onSuccess(CosXmlRequest request, CosXmlResult result) {
-                    COSXMLUploadTask.COSXMLUploadTaskResult cOSXMLUploadTaskResult = (COSXMLUploadTask.COSXMLUploadTaskResult) result;
-                    cosxmlTask = null;
-                    Log.e("1111", "成功");
-                    if (list.get(i).getName().equals("1")) {
-                        certificatesBackPic = cOSXMLUploadTaskResult.accessUrl;
-                        Log.e("身份证正面", cOSXMLUploadTaskResult.accessUrl);
-                    } else if (list.get(i).getName().equals("2")) {
-                        certificatesFrontPic = cOSXMLUploadTaskResult.accessUrl;
-                        Log.e("身份证反面", cOSXMLUploadTaskResult.accessUrl);
-                    } else if (list.get(i).getName().equals("3")) {
-                        idcardHandPic = cOSXMLUploadTaskResult.accessUrl;
-                        Log.e("手持身份证", cOSXMLUploadTaskResult.accessUrl);
-                    } else if (list.get(i).getName().equals("4")) {
-                        bUrl1 = cOSXMLUploadTaskResult.accessUrl;
-                        Log.e("银行卡正面", cOSXMLUploadTaskResult.accessUrl);
-                    }
-                    setResult(RESULT_OK);
-                    list.remove(i);
-                    if (list.size() < 1) {
-                        Log.e("----------》", "没有了去提交后台吧");
-                        posData();
-                    } else {
-                        upload(list, newfolderName);
-                    }
-                }
-
-                @Override
-                public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
-                    if (cosxmlTask.getTaskState() != TransferState.PAUSED) {
-                        cosxmlTask = null;
-                        Log.e("1111", "上传失败");
-                        loadDialog.dismiss();
-                        showToast(2, "图片上传失败！请重新选择图片");
-                    }
-                    exception.printStackTrace();
-                    serviceException.printStackTrace();
-                }
-            });
-
-        }
-    }
-
-
-    /**
      * 新增
      */
     private void posData() {
         RequestParams params = new RequestParams();
         //联系人
-        params.put("applicant", applicant);
+        params.put("applicant", editBean.getApplicant());
         //联系电话
-        params.put("contactPhoneNo", contactPhoneNo);
+        params.put("contactPhoneNo", editBean.getContactPhoneNo());
         //客服电话
-        params.put("clientServicePhoneNo", clientServicePhoneNo);
+        params.put("clientServicePhoneNo", editBean.getClientServicePhoneNo());
         //费率ID
-        params.put("feeId", rateId);
+        params.put("feeId", editBean.getFeeId());
         //SN
-        params.put("posCode", PosCode);
+        params.put("posCode", editBean.getPosCode());
         //商户简写
-        params.put("merchantShortHand", merchantShortHand);
+        params.put("merchantShortHand", editBean.getMerchantShortHand());
         //省份代码
-        params.put("provinceNo", provinceNo);
+        params.put("provinceNo", editBean.getProvinceNo());
         //城市编号
-        params.put("cityNo", cityNo);
+        params.put("cityNo", editBean.getCityNo());
         //区县代码
-        params.put("areaNo", areaNo);
+        params.put("areaNo", editBean.getAreaNo());
         //详细地址
-        params.put("address", address);
+        params.put("address", editBean.getAddress());
         //证件有效期截止日期（例：1949-10-01）;
-        params.put("certificateEndDate", certificateEndDate);
+        params.put("certificateEndDate", editBean.getCertificateEndDate());
         //法人证件号码
-        params.put("certificateNo", certificateNo);
+        params.put("certificateNo", editBean.getCertificateNo());
         //证件有效期开始日期（例：1949-10-01）
-        params.put("certificateStartDate", certificateStartDate);
+        params.put("certificateStartDate", editBean.getCertificateStartDate());
         //证件国徽面
-        params.put("certificatesBackPic", certificatesFrontPic);
+        params.put("certificatesBackPic", editBean.getCertificatesBackPic());
         //证件人脸面
-        params.put("certificatesFrontPic", certificatesBackPic);
+        params.put("certificatesFrontPic", editBean.getCertificatesFrontPic());
         //手持身份证照片
-        params.put("idcardHandPic", idcardHandPic);
+        params.put("idcardHandPic", editBean.getIdcardHandPic());
         //法人姓名
-        params.put("legalPersonName", legalPersonName);
+        params.put("legalPersonName", editBean.getLegalPersonName());
         //银行账号
         params.put("bankCardAccount", bNumber.getText().toString().trim());
         //开户名
@@ -465,7 +286,7 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
         //银行卡预留手机号
         params.put("bankCardPhone", quote_xy_phone.getText().toString().trim());
         //银行卡照片
-        params.put("bankCardPic", bUrl1);
+        params.put("bankCardPic", bUrl);
         //开户银行省份
         params.put("bankProvince", BankProvince);
         //开户银行城市
@@ -479,17 +300,17 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
         //手机号
         params.put("phone", getUserName());
         //商户活体检测地址
-        params.put("activeAddress", address);
+        params.put("activeAddress", editBean.getAddress());
         //商户活体检测地址纬度
-        params.put("activeLatitude", Latitude);
+        params.put("activeLatitude", editBean.getActiveLatitude());
         //商户活体检测地址经度
-        params.put("activeLongitude", Longitude);
+        params.put("activeLongitude", editBean.getActiveLongitude());
         //省名称
-        params.put("provinceName", provinceName);
+        params.put("provinceName", editBean.getProvinceName());
         //市名称
-        params.put("cityName", cityName);
+        params.put("cityName", editBean.getCityName());
         //区名称
-        params.put("areaName", areaName);
+        params.put("areaName", editBean.getAreaName());
         shouLog("提交的值-------------->", params.toString());
         HttpRequest.getPosPOperation(params, getToken(), new ResponseCallback() {
             @Override
@@ -541,8 +362,9 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
 
                             @Override
                             public void onSuccess(File file) {
-                                url4 = file.getPath();
-                                id_card_is.setImageBitmap(BitmapFactory.decodeFile(url4));
+                                id_card_is.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+                                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                                uploadImageView.upload(BankCardIn, file.getPath(), folderName);
                             }
 
                             @Override
@@ -584,7 +406,8 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
             }
             if (retBitmap1 != null) {
                 id_card_is.setImageBitmap(retBitmap1);
-                url4 = ImageConvertUtil.getFile(retBitmap1).getCanonicalPath();
+                String folderName = "baojian/Android/" + editBean.getPosCode() + "/" + TimeUtils.getNowTime("day");
+                uploadImageView.upload(BankCardIn, ImageConvertUtil.getFile(retBitmap1).getCanonicalPath(), folderName);
             }
 
         } catch (IOException e) {
@@ -862,4 +685,8 @@ public class AddMerchantsActivity3 extends BaseActivity implements View.OnClickL
     }
 
 
+    @Override
+    public void onResult(int type, String url) {
+        bUrl = url;
+    }
 }

@@ -201,7 +201,6 @@ public class EditPosPMerchantsActivity1 extends BaseActivity implements View.OnC
                 beans.setFeeId(rateId);
                 beans.setApplicant(quote_contact_name.getText().toString().trim());
                 beans.setMerchantShortHand(quote_contact_name.getText().toString().trim());
-                beans.setApplicant(quote_phone.getText().toString().trim());
                 beans.setContactPhoneNo(quote_phone.getText().toString().trim());
                 beans.setAddress(quote_address.getText().toString().trim());
                 beans.setProvinceNo(provinceNo);
